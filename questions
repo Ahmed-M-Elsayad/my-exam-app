@@ -1,0 +1,845 @@
+{
+  "version": "3.0",
+  "total": 94,
+  "questions": [
+    {
+      "id": 1,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "Some engineers ____________ many design specifications.",
+      "options": ["give", "gives", "are give", "is give"],
+      "correct": 0,
+      "explanation": "The subject 'Some engineers' is plural, so the present simple verb 'give' (plural form) is correct."
+    },
+    {
+      "id": 2,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "Taylor and Adam _______________ expert troubleshooters.",
+      "options": ["be", "is", "are", "does"],
+      "correct": 2,
+      "explanation": "The compound subject 'Taylor and Adam' is plural, so the verb 'are' is correct."
+    },
+    {
+      "id": 3,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "____________ your colleagues analyze stress factors accurately.",
+      "options": ["Are", "Does", "Do", "Is"],
+      "correct": 2,
+      "explanation": "Use 'Do' with the plural subject 'your colleagues' in questions."
+    },
+    {
+      "id": 4,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "How many CAD models ________ your team create this month?",
+      "options": ["are", "were", "did", "do"],
+      "correct": 2,
+      "explanation": "'this month' indicates a past time period, so the past simple with 'did' is correct."
+    },
+    {
+      "id": 5,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "He is skilled in programming, but he _____________ work on this project now.",
+      "options": ["isn't", "wasn't", "doesn't", "don't"],
+      "correct": 2,
+      "explanation": "Negative present simple with singular subject 'he' uses 'doesn't'."
+    },
+    {
+      "id": 6,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "He has been explaining the algorithm for hours, but I __ grasp it.",
+      "options": ["don't", "wasn't", "isn't", "am not"],
+      "correct": 0,
+      "explanation": "'I' takes 'don't' for negation in the present simple."
+    },
+    {
+      "id": 7,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "How often ______ you conduct safety inspections in your department?",
+      "options": ["are", "do", "was", "does"],
+      "correct": 1,
+      "explanation": "Use 'do' with the subject 'you' in questions about habits."
+    },
+    {
+      "id": 8,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "She ___________ enjoy attending engineering conferences. So, she ___________ attends them regularly.",
+      "options": ["doesn't / always", "doesn't / never", "isn't / never", "isn't / hardly ever"],
+      "correct": 0,
+      "explanation": "'doesn't enjoy' followed by the contrast 'always attends'."
+    },
+    {
+      "id": 9,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "None of my colleagues ________ neglects safety protocols.",
+      "options": ["doesn't", "does", "never", "isn't"],
+      "correct": 1,
+      "explanation": "'None of' + plural noun can take a singular verb in formal style, 'does' is the closest correct form here."
+    },
+    {
+      "id": 10,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "How many engineers in your team ________ coding?",
+      "options": ["knows", "are knowing", "does know", "know"],
+      "correct": 3,
+      "explanation": "The subject 'engineers' is plural, so the present simple verb 'know' (plural form) is correct."
+    },
+    {
+      "id": 11,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "How often ______ you conduct safety inspections?",
+      "options": ["are", "got", "do", "is"],
+      "correct": 2,
+      "explanation": "Use 'do' with the subject 'you' in questions about frequency."
+    },
+    {
+      "id": 12,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "We ________ our equipment after every operation.",
+      "options": ["clean", "are clean", "cleaning", "cleans"],
+      "correct": 0,
+      "explanation": "The subject 'We' is plural, so the present simple verb 'clean' is correct."
+    },
+    {
+      "id": 13,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "My team ___________ work overtime during project deadlines.",
+      "options": ["isn't", "doesn't", "don't", "aren't"],
+      "correct": 1,
+      "explanation": "'team' is treated as a singular collective noun in British English, so 'doesn't' is correct."
+    },
+    {
+      "id": 14,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "Our experiments ___________ at precisely scheduled times.",
+      "options": ["starts", "starting", "are start", "start"],
+      "correct": 3,
+      "explanation": "The subject 'experiments' is plural, so the present simple verb 'start' (no 's') is correct."
+    },
+    {
+      "id": 15,
+      "category": "CV",
+      "type": "mcq",
+      "question": "In an engineering CV, what should be included in the 'Contact Information' section?",
+      "options": ["Full name, email, phone, LinkedIn, portfolio", "Only name and email", "Home address and age", "Social media usernames"],
+      "correct": 0,
+      "explanation": "Contact information should include full name, professional email, phone number, LinkedIn profile, and portfolio link."
+    },
+    {
+      "id": 16,
+      "category": "CV",
+      "type": "mcq",
+      "question": "Which bullet point is the STRONGEST for an engineering CV using STAR?",
+      "options": ["Worked on improving the cooling system.", "Responsible for designing a bridge.", "Redesigned the HVAC cooling cycle using SolidWorks, reducing energy consumption by 15%.", "Helped write lab safety documents."],
+      "correct": 2,
+      "explanation": "This uses a strong action verb (Redesigned), a specific tool (SolidWorks), and a quantifiable result (15% reduction)."
+    },
+    {
+      "id": 17,
+      "category": "Motivation",
+      "type": "mcq",
+      "question": "What is the purpose of 'Body Paragraph 2' in a motivation letter?",
+      "options": ["Demonstrate research about the company", "List all technical skills", "Repeat the CV", "Ask for salary"],
+      "correct": 0,
+      "explanation": "The second body paragraph shows you have researched the company and explains why its values align with your career goals."
+    },
+    {
+      "id": 18,
+      "category": "Recommendation",
+      "type": "mcq",
+      "question": "A professional recommendation letter should be written by:",
+      "options": ["A former manager or supervisor", "A family member", "A friend", "A classmate"],
+      "correct": 0,
+      "explanation": "Professional recommendation letters should be written by a former manager, supervisor, or senior colleague."
+    },
+    {
+      "id": 19,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "We used ___ IEEE referencing style for our report.",
+      "options": ["a", "an", "the", "no article"],
+      "correct": 1,
+      "explanation": "'IEEE' starts with a vowel sound (Eye), so 'an' is used."
+    },
+    {
+      "id": 20,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "___ unique hardware configuration was required.",
+      "options": ["A", "An", "The", "Some"],
+      "correct": 0,
+      "explanation": "'unique' begins with a /juː/ sound (y sound), so 'a' is used."
+    },
+    {
+      "id": 21,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "Please refer to ___ oscilloscope on the workbench.",
+      "options": ["a", "an", "the", "any"],
+      "correct": 2,
+      "explanation": "The oscilloscope is specific (on the workbench), so 'the' is used."
+    },
+    {
+      "id": 22,
+      "category": "Grammar",
+      "type": "mcq",
+      "question": "It takes ___ hour to complete the simulation.",
+      "options": ["a", "an", "the", "no article"],
+      "correct": 1,
+      "explanation": "'hour' starts with a vowel sound (our), so 'an' is used."
+    },
+    {
+      "id": 23,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "The purpose of a preamble is to ___ the study.",
+      "options": ["conclude", "set the tone", "cite sources", "list data"],
+      "correct": 1,
+      "explanation": "The preamble sets the tone and engages the reader."
+    },
+    {
+      "id": 24,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "Which section clarifies what a study will NOT cover?",
+      "options": ["Background", "Scope", "Limitations", "Problem Statement"],
+      "correct": 2,
+      "explanation": "Limitations specify what the study will not cover."
+    },
+    {
+      "id": 25,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "A problem statement must be technically ___.",
+      "options": ["vague", "emotional", "grounded", "optional"],
+      "correct": 2,
+      "explanation": "A problem statement should be objective and fact-based."
+    },
+    {
+      "id": 26,
+      "category": "Clauses",
+      "type": "mcq",
+      "question": "Identify the clause type: We must determine 'why the system rebooted'.",
+      "options": ["Noun Clause", "Adjective Clause", "Adverb Clause", "Independent Clause"],
+      "correct": 0,
+      "explanation": "The clause 'why the system rebooted' acts as the object of 'determine', therefore it is a noun clause."
+    },
+    {
+      "id": 27,
+      "category": "Clauses",
+      "type": "mcq",
+      "question": "Identify the clause type: The engineer 'who calibrated the device' ensured accuracy.",
+      "options": ["Verb Clause", "Noun Clause", "Adjective Clause", "Adverb Clause"],
+      "correct": 2,
+      "explanation": "The clause 'who calibrated the device' describes the engineer, so it is an adjective clause."
+    },
+    {
+      "id": 28,
+      "category": "Comprehension",
+      "type": "mcq",
+      "question": "Which section establishes context and demonstrates relevance?",
+      "options": ["Background Information", "Sampling Technique", "Data Analysis", "System Architecture"],
+      "correct": 0,
+      "explanation": "The Background Information section provides context and shows the importance of the topic."
+    },
+    {
+      "id": 29,
+      "category": "Comprehension",
+      "type": "mcq",
+      "question": "A clear statement of the research question is the ___?",
+      "options": ["Literature Review", "Significance", "Problem Statement", "Methodology"],
+      "correct": 2,
+      "explanation": "The Problem Statement clearly defines the research question."
+    },
+    {
+      "id": 30,
+      "category": "Comprehension",
+      "type": "mcq",
+      "question": "Boundaries of the study (what it will not cover) are found in ___?",
+      "options": ["Ethical Considerations", "Scope and Limitations", "Research Design", "Data Analysis"],
+      "correct": 1,
+      "explanation": "The Scope and Limitations section defines what the study covers and what it does not."
+    },
+    {
+      "id": 31,
+      "category": "Exam",
+      "type": "essay",
+      "question": "What is the primary goal of a literature review?",
+      "answer": "To identify research gaps and position the new study."
+    },
+    {
+      "id": 32,
+      "category": "Exam",
+      "type": "essay",
+      "question": "Difference between microcontroller and microprocessor?",
+      "answer": "Microcontroller: integrated CPU, RAM, ROM, peripherals. Microprocessor: only CPU."
+    },
+    {
+      "id": 33,
+      "category": "Exam",
+      "type": "report",
+      "question": "Write introduction for 'Smart Irrigation System'.",
+      "answer": "Background: water scarcity. Problem: traditional irrigation wastes 40% water. Aim: IoT system. Objectives: design, implement, test. Scope: one field. Significance: save water.",
+      "rubric": "Problem 30%, Objectives 30%, Scope 20%, Significance 20%"
+    },
+    {
+      "id": 34,
+      "category": "Exam",
+      "type": "mcq",
+      "question": "What does 'MPPT' stand for?",
+      "options": ["Maximum Power Point Tracking", "Minimum Power Point Tracking", "Maximum Power Point Transfer", "Minimum Power Point Transfer"],
+      "correct": 0,
+      "explanation": "MPPT stands for Maximum Power Point Tracking."
+    },
+    {
+      "id": 35,
+      "category": "Exam",
+      "type": "mcq",
+      "question": "Which tense for completed actions?",
+      "options": ["Present", "Past", "Future", "Present perfect"],
+      "correct": 1,
+      "explanation": "Past simple tense is used for completed actions."
+    },
+    {
+      "id": 36,
+      "category": "Exam",
+      "type": "essay",
+      "question": "What is Validity?",
+      "answer": "Accuracy of measurement; the instrument measures what it intends to measure."
+    },
+    {
+      "id": 37,
+      "category": "Exam",
+      "type": "mcq",
+      "question": "Correct order of introduction?",
+      "options": ["Background→Problem→Objectives→Scope→Significance", "Objectives→Background→Problem", "Problem→Results→Conclusion", "Scope→Methodology→Results"],
+      "correct": 0,
+      "explanation": "Standard order: Background, Problem Statement, Objectives, Scope, Significance."
+    },
+    {
+      "id": 38,
+      "category": "Structure",
+      "type": "mcq",
+      "question": "According to the hierarchical numbering system in academic reports, what is the correct format for a subsection inside a section?",
+      "options": ["1-A", "1.1.1", "1.1.a", "1/1/1"],
+      "correct": 1,
+      "explanation": "Hierarchical numbering: chapter (1), section (1.1), subsection (1.1.1)."
+    },
+    {
+      "id": 39,
+      "category": "Structure",
+      "type": "mcq",
+      "question": "Which level of numbering represents a main chapter in an academic report?",
+      "options": ["1", "1.1", "1.1.1", "1.1.1.1"],
+      "correct": 0,
+      "explanation": "Main chapters are numbered with a single digit (1, 2, 3...)."
+    },
+    {
+      "id": 40,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "What is the main purpose of the 'Preamble' in Chapter One?",
+      "options": ["To list all references", "To introduce the general field using a funnel approach", "To present the results", "To describe the methodology"],
+      "correct": 1,
+      "explanation": "The preamble introduces the general field using a funnel approach (broad to specific)."
+    },
+    {
+      "id": 41,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "The Preamble should start with ________ and gradually narrow down to the research topic.",
+      "options": ["Specific details", "Broad context", "Literature review", "Conclusion"],
+      "correct": 1,
+      "explanation": "The preamble starts with a broad context and gradually narrows to the specific research topic."
+    },
+    {
+      "id": 42,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "The 'Background' subsection (1.2.1) primarily serves to:",
+      "options": ["Define core terms and concepts", "State the research objectives", "List the limitations", "Summarize the results"],
+      "correct": 0,
+      "explanation": "The background subsection defines core terms and concepts."
+    },
+    {
+      "id": 43,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "The 'Motivation' subsection (1.2.2) explains:",
+      "options": ["The historical development of the field", "The industrial need or problem that drives the study", "The research methodology", "The statistical analysis"],
+      "correct": 1,
+      "explanation": "The motivation section explains the industrial need or problem that drives the study."
+    },
+    {
+      "id": 44,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "According to the guidelines, the Problem Statement should focus strictly on:",
+      "options": ["The proposed solution", "The knowledge gap, flaw, or inefficiency", "The research methodology", "The expected results"],
+      "correct": 1,
+      "explanation": "The problem statement must focus only on the knowledge gap, flaw, or inefficiency, not the solution."
+    },
+    {
+      "id": 45,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "Research Questions are derived directly from:",
+      "options": ["The abstract", "The literature review", "The problem statement", "The conclusion"],
+      "correct": 2,
+      "explanation": "Research questions are derived directly from the problem statement."
+    },
+    {
+      "id": 46,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "How should the 'Aim of the Study' be formatted?",
+      "options": ["A bulleted list", "A detailed paragraph", "One overarching sentence", "A series of questions"],
+      "correct": 2,
+      "explanation": "The aim of the study should be written as one overarching sentence."
+    },
+    {
+      "id": 47,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "What does the 'S' in SMART Objectives stand for?",
+      "options": ["Simple", "Specific", "Standard", "Systematic"],
+      "correct": 1,
+      "explanation": "S = Specific"
+    },
+    {
+      "id": 48,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "What does the 'M' in SMART Objectives stand for?",
+      "options": ["Meaningful", "Measurable", "Mandatory", "Mechanical"],
+      "correct": 1,
+      "explanation": "M = Measurable"
+    },
+    {
+      "id": 49,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "What does the 'A' in SMART Objectives stand for?",
+      "options": ["Achievable", "Abstract", "Analytical", "Automated"],
+      "correct": 0,
+      "explanation": "A = Achievable"
+    },
+    {
+      "id": 50,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "What does the 'R' in SMART Objectives stand for?",
+      "options": ["Reliable", "Relevant", "Rapid", "Random"],
+      "correct": 1,
+      "explanation": "R = Relevant"
+    },
+    {
+      "id": 51,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "What does the 'T' in SMART Objectives stand for?",
+      "options": ["Time-bound", "Technical", "Theoretical", "Testable"],
+      "correct": 0,
+      "explanation": "T = Time-bound"
+    },
+    {
+      "id": 52,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "The 'Scope of the Study' should explicitly state:",
+      "options": ["What the study covers and its boundaries", "The expected results", "The research questions", "The acknowledgements"],
+      "correct": 0,
+      "explanation": "The scope defines what the study covers and its boundaries, explicitly stating exclusions."
+    },
+    {
+      "id": 53,
+      "category": "Intro",
+      "type": "tf",
+      "question": "The Scope of the Study should claim that the study covers everything possible.",
+      "options": ["True", "False"],
+      "correct": 1,
+      "explanation": "The scope must clearly state boundaries and exclusions, not claim coverage of everything."
+    },
+    {
+      "id": 54,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "The 'Significance of the Study' highlights beneficiaries for:",
+      "options": ["Industry and Academia only", "Industry, Academia, and Society", "The researcher only", "The funding agency only"],
+      "correct": 1,
+      "explanation": "Significance highlights beneficiaries: industry, academia, and society."
+    },
+    {
+      "id": 55,
+      "category": "Intro",
+      "type": "mcq",
+      "question": "The 'Organization of the Thesis' provides:",
+      "options": ["A summary of results", "A sequential roadmap summarizing each chapter", "A list of figures", "The abstract"],
+      "correct": 1,
+      "explanation": "Organization of the thesis provides a sequential roadmap summarizing each chapter."
+    },
+    {
+      "id": 56,
+      "category": "Style",
+      "type": "tf",
+      "question": "Personal pronouns like 'I' and 'We' should be used frequently in academic writing.",
+      "options": ["True", "False"],
+      "correct": 1,
+      "explanation": "Avoid personal pronouns (I, We) and use passive voice instead in academic writing."
+    },
+    {
+      "id": 57,
+      "category": "Style",
+      "type": "tf",
+      "question": "Slang and contractions (like 'isn't', 'don't') are acceptable in formal academic writing.",
+      "options": ["True", "False"],
+      "correct": 1,
+      "explanation": "Avoid slang and contractions in formal academic writing."
+    },
+    {
+      "id": 58,
+      "category": "Style",
+      "type": "tf",
+      "question": "Each sentence should convey one idea concisely, avoiding rambling.",
+      "options": ["True", "False"],
+      "correct": 0,
+      "explanation": "Each sentence should convey one idea concisely, avoiding rambling."
+    },
+    {
+      "id": 59,
+      "category": "Mistakes",
+      "type": "mcq",
+      "question": "What is a common mistake in numbering sections?",
+      "options": ["Using strict hierarchy", "Skipping numbers or inconsistent numbering", "Using Roman numerals", "Using decimal points"],
+      "correct": 1,
+      "explanation": "Common mistake: missing or skipping numbers instead of following strict hierarchy."
+    },
+    {
+      "id": 60,
+      "category": "Mistakes",
+      "type": "mcq",
+      "question": "What is a common mistake in the Problem Statement?",
+      "options": ["Focusing on the knowledge gap", "Being specific", "Presenting the solution", "Explaining the flaw"],
+      "correct": 2,
+      "explanation": "Common mistake: presenting the solution inside the problem statement instead of focusing on the gap."
+    },
+    {
+      "id": 61,
+      "category": "Mistakes",
+      "type": "mcq",
+      "question": "What is a common mistake in writing Objectives?",
+      "options": ["Using action verbs", "Being measurable", "Using vague terms like 'To understand'", "Being realistic"],
+      "correct": 2,
+      "explanation": "Common mistake: using vague terms like 'To understand' instead of specific, measurable verbs."
+    },
+    {
+      "id": 62,
+      "category": "Mistakes",
+      "type": "mcq",
+      "question": "What is a common mistake regarding the Scope?",
+      "options": ["Explicitly stating boundaries", "Listing exclusions", "Claiming the study covers everything", "Being specific about what is included"],
+      "correct": 2,
+      "explanation": "Common mistake: claiming the study covers everything instead of defining boundaries and exclusions."
+    },
+    {
+      "id": 63,
+      "category": "Mistakes",
+      "type": "mcq",
+      "question": "What is a common mistake in the Significance section?",
+      "options": ["Focusing on industrial benefits", "Focusing on academic benefits", "Writing 'This helps me get my degree'", "Highlighting societal impact"],
+      "correct": 2,
+      "explanation": "Common mistake: writing 'This helps me get my degree' instead of focusing on industrial/academic benefits."
+    },
+    {
+      "id": 64,
+      "category": "Structure",
+      "type": "mcq",
+      "question": "Match: Which section 'Introduces the general field broadly using a funnel approach'?",
+      "options": ["Preamble", "Background & Motivation", "Scope of the Study", "Significance of the Study"],
+      "correct": 0,
+      "explanation": "The Preamble introduces the general field using a funnel approach."
+    },
+    {
+      "id": 65,
+      "category": "Structure",
+      "type": "mcq",
+      "question": "Match: Which section 'Explains concepts, key terms, and justifies the need for research'?",
+      "options": ["Preamble", "Background & Motivation", "Scope of the Study", "Organization of the Thesis"],
+      "correct": 1,
+      "explanation": "Background & Motivation explains concepts, key terms, and justifies the need for research."
+    },
+    {
+      "id": 66,
+      "category": "Structure",
+      "type": "mcq",
+      "question": "Match: Which section 'Strictly defines boundaries and lists explicit exclusions'?",
+      "options": ["Preamble", "Background & Motivation", "Scope of the Study", "Significance of the Study"],
+      "correct": 2,
+      "explanation": "The Scope of the Study defines boundaries and lists exclusions."
+    },
+    {
+      "id": 67,
+      "category": "Structure",
+      "type": "mcq",
+      "question": "Match: Which section 'Highlights the practical/academic importance and beneficiaries'?",
+      "options": ["Preamble", "Background & Motivation", "Scope of the Study", "Significance of the Study"],
+      "correct": 3,
+      "explanation": "The Significance of the Study highlights practical/academic importance and beneficiaries."
+    },
+    {
+      "id": 68,
+      "category": "Structure",
+      "type": "mcq",
+      "question": "Match: Which section 'Provides a brief roadmap summarizing each chapter'?",
+      "options": ["Preamble", "Background & Motivation", "Scope of the Study", "Organization of the Thesis"],
+      "correct": 3,
+      "explanation": "Organization of the Thesis provides a brief roadmap summarizing each chapter."
+    },
+    {
+      "id": 69,
+      "category": "Structure",
+      "type": "mcq",
+      "question": "Which format represents the correct numbering for a subsection?",
+      "options": ["Section 1-1", "1.A", "1.1.1", "1.I.1"],
+      "correct": 2,
+      "explanation": "The correct numbering for a subsection is 1.1.1."
+    },
+    {
+      "id": 70,
+      "category": "Style",
+      "type": "mcq",
+      "question": "When writing academic text, you should rigorously eliminate:",
+      "options": ["Specific definitions", "Personal pronouns (I, We)", "Third-person", "Passive voice"],
+      "correct": 1,
+      "explanation": "Eliminate personal pronouns (I, We) from academic writing."
+    },
+    {
+      "id": 71,
+      "category": "CV",
+      "type": "mcq",
+      "question": "According to the Engineering CV guide, what should be included in the 'Contact Information' section?",
+      "options": ["Full name, professional email, phone number, LinkedIn profile, portfolio link", "Only name and phone number", "Home address and marital status", "Social security number"],
+      "correct": 0,
+      "explanation": "Contact information should include full name, professional email, phone number, LinkedIn profile, and portfolio link."
+    },
+    {
+      "id": 72,
+      "category": "CV",
+      "type": "mcq",
+      "question": "The 'Professional Summary' in an engineering CV should be:",
+      "options": ["A concise 3-4 line paragraph", "A full-page description", "A list of all previous jobs", "A repetition of the contact information"],
+      "correct": 0,
+      "explanation": "The professional summary should be a concise 3-4 line paragraph highlighting key skills and experience."
+    },
+    {
+      "id": 73,
+      "category": "CV",
+      "type": "mcq",
+      "question": "Why should engineers categorize their skills into groups like 'Software & Tools', 'Hardware/Equipment', and 'Methodologies'?",
+      "options": ["To make the CV longer", "To pass Applicant Tracking Systems (ATS) and improve readability", "To hide weak skills", "To save space"],
+      "correct": 1,
+      "explanation": "Categorizing skills helps pass Applicant Tracking Systems (ATS) and improves readability."
+    },
+    {
+      "id": 74,
+      "category": "CV",
+      "type": "mcq",
+      "question": "Which of the following is an example of 'Software & Tools' skill for a mechanical engineer?",
+      "options": ["Oscilloscope", "CNC Machining", "SolidWorks", "PLC Programming"],
+      "correct": 2,
+      "explanation": "SolidWorks is design software, which falls under 'Software & Tools'."
+    },
+    {
+      "id": 75,
+      "category": "CV",
+      "type": "mcq",
+      "question": "Which of the following is an example of 'Hardware/Equipment' skill?",
+      "options": ["MATLAB", "Python", "Oscilloscope", "Agile"],
+      "correct": 2,
+      "explanation": "Oscilloscope is a hardware/equipment skill."
+    },
+    {
+      "id": 76,
+      "category": "CV",
+      "type": "mcq",
+      "question": "Which of the following is an example of 'Methodologies' skill?",
+      "options": ["AutoCAD", "Finite Element Analysis (FEA)", "Python", "SAP2000"],
+      "correct": 1,
+      "explanation": "Finite Element Analysis (FEA) is a methodology used in engineering."
+    },
+    {
+      "id": 77,
+      "category": "CV",
+      "type": "mcq",
+      "question": "What does the 'S' in the STAR method stand for?",
+      "options": ["Situation", "Solution", "Summary", "Skill"],
+      "correct": 0,
+      "explanation": "S = Situation (the context or background)."
+    },
+    {
+      "id": 78,
+      "category": "CV",
+      "type": "mcq",
+      "question": "What does the 'T' in the STAR method stand for?",
+      "options": ["Task", "Time", "Tool", "Team"],
+      "correct": 0,
+      "explanation": "T = Task (the task or responsibility)."
+    },
+    {
+      "id": 79,
+      "category": "CV",
+      "type": "mcq",
+      "question": "What does the 'A' in the STAR method stand for?",
+      "options": ["Action", "Achievement", "Analysis", "Approach"],
+      "correct": 0,
+      "explanation": "A = Action (the action taken)."
+    },
+    {
+      "id": 80,
+      "category": "CV",
+      "type": "mcq",
+      "question": "What does the 'R' in the STAR method stand for?",
+      "options": ["Result", "Reason", "Review", "Requirement"],
+      "correct": 0,
+      "explanation": "R = Result (the measurable outcome)."
+    },
+    {
+      "id": 81,
+      "category": "CV",
+      "type": "mcq",
+      "question": "According to the guide, which bullet point is the STRONGEST for an engineering CV?",
+      "options": ["Worked on improving the cooling system.", "Assisted in the maintenance of hydraulic presses.", "Redesigned the HVAC cooling cycle using SolidWorks, reducing energy consumption by 15% and saving $10,000 annually.", "Helped write lab safety documents."],
+      "correct": 2,
+      "explanation": "This bullet point uses a strong action verb (Redesigned), a specific tool (SolidWorks), and quantifiable results (15% and $10,000)."
+    },
+    {
+      "id": 82,
+      "category": "CV",
+      "type": "tf",
+      "question": "Professional experience bullet points should focus on duties rather than accomplishments.",
+      "options": ["True", "False"],
+      "correct": 1,
+      "explanation": "Focus on accomplishments (achievements), not just duties."
+    },
+    {
+      "id": 83,
+      "category": "CV",
+      "type": "mcq",
+      "question": "What should junior engineers include in their CV regarding academic projects?",
+      "options": ["Capstone projects with specific contribution and tools used", "Only the course names", "No projects", "Only the GPA"],
+      "correct": 0,
+      "explanation": "Include capstone projects with your specific contribution and the tools used."
+    },
+    {
+      "id": 84,
+      "category": "CV",
+      "type": "mcq",
+      "question": "In the example of Ahmed El-Sayed's CV, what was his capstone project?",
+      "options": ["Solar-powered water desalination unit", "HVAC system design", "Bridge structural analysis", "Robot arm controller"],
+      "correct": 0,
+      "explanation": "His capstone project was a solar-powered water desalination unit."
+    },
+    {
+      "id": 85,
+      "category": "CV",
+      "type": "mcq",
+      "question": "In Ahmed El-Sayed's CV, by what percentage did he optimize system efficiency?",
+      "options": ["15%", "20%", "30%", "12%"],
+      "correct": 1,
+      "explanation": "He optimized system efficiency by 20%."
+    },
+    {
+      "id": 86,
+      "category": "Motivation",
+      "type": "mcq",
+      "question": "What is the purpose of the 'Introduction (The Hook)' in a motivation letter?",
+      "options": ["State the position and provide a strong opening statement about enthusiasm and top qualification", "List all technical skills", "Repeat the CV", "Ask for salary"],
+      "correct": 0,
+      "explanation": "The introduction (hook) states the position, expresses enthusiasm, and highlights the top qualification."
+    },
+    {
+      "id": 87,
+      "category": "Motivation",
+      "type": "mcq",
+      "question": "What should 'Body Paragraph 1 (Why You?)' in a motivation letter highlight?",
+      "options": ["The company's mission and values", "1-2 major technical achievements connected to the job requirements", "Personal hobbies", "Education history"],
+      "correct": 1,
+      "explanation": "Body paragraph 1 highlights 1-2 major technical achievements linked to the job requirements."
+    },
+    {
+      "id": 88,
+      "category": "Motivation",
+      "type": "mcq",
+      "question": "What is the recommended sign-off for a motivation letter?",
+      "options": ["Best wishes", "Sincerely, followed by your name", "Yours faithfully", "Regards"],
+      "correct": 1,
+      "explanation": "The recommended sign-off is 'Sincerely,' followed by your name."
+    },
+    {
+      "id": 89,
+      "category": "Motivation",
+      "type": "mcq",
+      "question": "In Kareem Youssef's motivation letter, what improvement did he achieve by migrating to microservices?",
+      "options": ["Improved system uptime from 95% to 99.9% and reduced API response time by 40%", "Increased server count", "Reduced team size", "Improved UI"],
+      "correct": 0,
+      "explanation": "He improved system uptime from 95% to 99.9% and reduced API response time by 40%."
+    },
+    {
+      "id": 90,
+      "category": "Motivation",
+      "type": "mcq",
+      "question": "What company did Kareem Youssef apply to and what initiative did he mention?",
+      "options": ["InnovateTech Solutions - SmartPay AI", "Google - Android Auto", "Microsoft - Azure", "Amazon - AWS"],
+      "correct": 0,
+      "explanation": "He applied to InnovateTech Solutions and mentioned their 'SmartPay AI' initiative."
+    },
+    {
+      "id": 91,
+      "category": "Recommendation",
+      "type": "mcq",
+      "question": "What is the primary focus of a professional recommendation letter?",
+      "options": ["Practical work skills, teamwork, reliability, and contributions to company goals", "Academic standing and research ability", "Personal hobbies", "Financial status"],
+      "correct": 0,
+      "explanation": "A professional recommendation focuses on practical work skills, teamwork, reliability, and contributions to company goals."
+    },
+    {
+      "id": 92,
+      "category": "Recommendation",
+      "type": "mcq",
+      "question": "In the professional recommendation example for Eng. Sara Ali, what software did she use for seismic analysis?",
+      "options": ["ETABS and SAFE", "AutoCAD and Revit", "SolidWorks and ANSYS", "MATLAB and Python"],
+      "correct": 0,
+      "explanation": "She used ETABS and SAFE for seismic analysis."
+    },
+    {
+      "id": 93,
+      "category": "Recommendation",
+      "type": "mcq",
+      "question": "An academic recommendation letter is typically written by:",
+      "options": ["A professor, academic advisor, or department head", "A former employer", "A friend", "A family member"],
+      "correct": 0,
+      "explanation": "An academic recommendation is written by a professor, academic advisor, or department head."
+    },
+    {
+      "id": 94,
+      "category": "Recommendation",
+      "type": "mcq",
+      "question": "What is the main focus of an academic recommendation letter?",
+      "options": ["Intellect, research ability, learning speed, and academic projects", "Practical work skills", "Salary expectations", "Company loyalty"],
+      "correct": 0,
+      "explanation": "An academic recommendation focuses on intellect, research ability, learning speed, and academic projects."
+    }
+  ]
+}
