@@ -1,4 +1,5 @@
 # Engineering Interactive Exam
+![License](https://img.shields.io/badge/License-Educational%20%26%20Non--Commercial-blue.svg)
 An interactive engineering exam platform combining MCQ, True/False, short essay, and technical report questions. It's designed to help engineering students review their technical report writing and engineering English curriculum in a random and interactive way.
 ## ✨ Key Features
 - 15 randomly selected questions from a pool of 219 real questions (no duplication in any single exam).
@@ -20,6 +21,7 @@ my-exam-app/
 ├── index.html # Main interface and application logic
 ├── questions.json # Question database
 ├── LICENSE # License terms and copyright information
+├── .gitignore # Files ignored by Git
 └── README.md # This file
 ## 🚀 How to Run
 ### Locally (Offline)
