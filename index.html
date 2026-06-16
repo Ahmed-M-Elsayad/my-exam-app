@@ -1,553 +1,931 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Engineering Exam | Smart Feedback</title>
-  <style>
-    /* نفس الستايل السابق (اختصاراً سأضعه كاملاً) */
-    * { margin:0; padding:0; box-sizing:border-box; transition: background-color 0.2s, color 0.2s; }
-    :root { --bg-gradient-start:#e0f2fe; --bg-gradient-end:#bae6fd; --card-bg:rgba(255,255,255,0.92); --card-border:rgba(2,132,199,0.2); --text-primary:#0f172a; --text-secondary:#334155; --accent:#0284c7; --accent-hover:#0ea5e9; --btn-gradient:linear-gradient(135deg,#0284c7,#0ea5e9); --success-bg:#dcfce7; --success-border:#22c55e; --success-text:#166534; --error-bg:#fee2e2; --error-border:#ef4444; --error-text:#991b1b; --focus-ring:#facc15; --option-bg:rgba(255,255,255,0.5); --option-hover:rgba(2,132,199,0.1); }
-    body.dark { --bg-gradient-start:#0f172a; --bg-gradient-end:#1e293b; --card-bg:rgba(30,41,59,0.95); --card-border:rgba(56,189,248,0.2); --text-primary:#f1f5f9; --text-secondary:#cbd5e1; --accent:#38bdf8; --accent-hover:#7dd3fc; --btn-gradient:linear-gradient(135deg,#0284c7,#38bdf8); --success-bg:#064e3b; --success-border:#10b981; --success-text:#a7f3d0; --error-bg:#7f1d1d; --error-border:#f87171; --error-text:#fecaca; --focus-ring:#facc15; --option-bg:rgba(255,255,255,0.05); --option-hover:rgba(56,189,248,0.2); }
-    body { font-family:'Segoe UI',system-ui,sans-serif; background:linear-gradient(135deg,var(--bg-gradient-start),var(--bg-gradient-end)); min-height:100vh; color:var(--text-primary); padding:24px 16px; }
-    .container { max-width:1100px; margin:0 auto; }
-    .hero { text-align:center; margin-bottom:30px; }
-    .hero h1 { font-size:2.2rem; background:linear-gradient(135deg,#0284c7,#10b981); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:700; }
-    .toolbar { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-bottom:25px; background:var(--card-bg); backdrop-filter:blur(4px); padding:12px 20px; border-radius:60px; border:1px solid var(--card-border); }
-    .btn { padding:8px 20px; border-radius:40px; font-weight:600; font-size:0.85rem; cursor:pointer; background:transparent; color:var(--text-primary); border:1px solid var(--accent); transition:0.2s; }
-    .btn-primary { background:var(--btn-gradient); border:none; color:white; }
-    .btn-primary:hover { transform:translateY(-2px); outline:3px solid var(--focus-ring); }
-    .icon-btn { font-size:1.2rem; padding:6px 16px; }
-    .filter-panel { background:var(--card-bg); border-radius:28px; padding:18px 22px; margin-bottom:28px; border:1px solid var(--card-border); }
-    .filter-row { margin-bottom:16px; }
-    .filter-title { font-size:0.85rem; font-weight:700; margin-bottom:10px; color:var(--accent); display:flex; align-items:center; gap:8px; }
-    .filter-buttons { display:flex; flex-wrap:wrap; gap:10px; }
-    .filter-chip { background:rgba(255,255,255,0.5); padding:8px 18px; border-radius:60px; border:1px solid var(--card-border); cursor:pointer; font-size:0.8rem; font-weight:500; transition:0.15s; }
-    body.dark .filter-chip { background:rgba(255,255,255,0.08); }
-    .filter-chip:hover { transform:translateY(-2px); background:var(--accent); color:white; border-color:var(--accent); outline:3px solid var(--focus-ring); }
-    .filter-chip.active { background:var(--accent); color:white; border-color:var(--accent); transform:scale(0.98); }
-    .progress-section { background:var(--card-bg); border-radius:30px; padding:6px 12px; margin-bottom:25px; }
-    .progress-bar { background:#cbd5e1; border-radius:20px; height:8px; overflow:hidden; }
-    .progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#0284c7,#10b981); border-radius:20px; transition:width 0.25s; }
-    .questions-area { display:flex; flex-direction:column; gap:28px; }
-    .question-card { background:var(--card-bg); backdrop-filter:blur(4px); border:1px solid var(--card-border); border-radius:32px; padding:24px; transition:box-shadow 0.2s; }
-    .question-card:focus-within { border-color:var(--accent); box-shadow:0 0 0 3px var(--focus-ring); }
-    .q-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px; }
-    .q-badge { background:var(--accent); padding:4px 14px; border-radius:30px; font-size:0.8rem; font-weight:bold; color:white; }
-    .q-type { background:#10b981; padding:4px 12px; border-radius:30px; font-size:0.7rem; color:#0f172a; font-weight:bold; }
-    .q-text { font-size:1.1rem; font-weight:500; line-height:1.5; margin-bottom:20px; }
-    .options-list { display:flex; flex-direction:column; gap:12px; }
-    .option-item { background:var(--option-bg); border-radius:60px; padding:10px 18px; display:flex; align-items:center; gap:12px; cursor:pointer; border:1px solid transparent; transition:0.1s; }
-    .option-item:hover { transform:translateX(6px); background:var(--option-hover); border-color:var(--accent); }
-    .option-prefix { font-weight:bold; width:32px; height:32px; background:var(--accent); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:white; }
-    .option-item.correct-answer { background:var(--success-bg) !important; border-color:var(--success-border) !important; color:var(--success-text) !important; }
-    .option-item.correct-answer .option-prefix { background:var(--success-border); color:white; }
-    .option-item.wrong-answer { background:var(--error-bg) !important; border-color:var(--error-border) !important; color:var(--error-text) !important; }
-    .option-item.wrong-answer .option-prefix { background:var(--error-border); color:white; }
-    .option-item.disabled-option { pointer-events:none; opacity:0.8; }
-    .feedback { display:none; margin-top:15px; padding:12px; border-radius:20px; font-size:0.85rem; background:var(--card-bg); border-left:4px solid var(--accent); color:var(--text-primary); }
-    .feedback.correct { display:block; background:var(--success-bg); border-left-color:var(--success-border); color:var(--success-text); }
-    .feedback.wrong { display:block; background:var(--error-bg); border-left-color:var(--error-border); color:var(--error-text); }
-    .essay-area textarea, .report-area textarea { width:100%; background:var(--option-bg); border:1px solid var(--card-border); border-radius:24px; padding:12px; color:var(--text-primary); font-family:inherit; margin:10px 0; }
-    .small-btn { background:transparent; border:1px solid var(--accent); padding:4px 14px; border-radius:30px; font-size:0.7rem; cursor:pointer; margin-top:6px; color:var(--text-primary); }
-    .small-btn:hover { background:var(--accent); color:white; }
-    .model-answer { display:none; margin-top:10px; padding:12px; background:rgba(2,132,199,0.1); border-radius:20px; }
-    .rubric { font-size:0.8rem; margin-top:8px; padding:6px 10px; background:rgba(2,132,199,0.1); border-radius:12px; }
-    .submit-exam-wrapper { text-align:center; margin:35px 0 20px; }
-    .btn-large { padding:14px 36px; font-size:1.2rem; background:linear-gradient(135deg,#10b981,#0284c7); border:none; color:white; font-weight:bold; border-radius:60px; cursor:pointer; transition:0.2s; box-shadow:0 4px 12px rgba(2,132,199,0.3); }
-    .btn-large:hover { transform:scale(1.02); outline:3px solid var(--focus-ring); }
-    .result-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; padding:20px; }
-    .result-card { background:var(--card-bg); max-width:600px; width:100%; border-radius:36px; padding:28px; border:1px solid var(--accent); max-height:90vh; overflow-y:auto; }
-    .score-circle { width:130px; height:130px; margin:20px auto; background:linear-gradient(135deg,#0284c7,#10b981); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2.4rem; font-weight:bold; color:white; }
-    .mistake-item { background:rgba(239,68,68,0.1); border-radius:20px; padding:12px; margin-bottom:12px; }
-    footer { text-align:center; margin-top:30px; font-size:0.8rem; color:var(--text-secondary); border-top:1px solid var(--card-border); padding-top:20px; }
-    .footer-link { color:var(--accent); text-decoration:none; font-weight:600; }
-    .footer-link:hover { text-decoration:underline; }
-    @media (max-width:650px){ .toolbar{ gap:8px; } .btn{ padding:6px 14px; } }
-  </style>
-<base target="_blank">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+    <!-- ===== Security Headers ===== -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data:;
+        font-src 'self';
+        connect-src 'self';
+        frame-ancestors 'none';
+        base-uri 'self';
+        form-action 'self';
+    ">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+
+    <title>Engineering Exam | Secure</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        /* Light theme (default) */
+        :root {
+            --bg-gradient-start: #e0f2fe;
+            --bg-gradient-end: #bae6fd;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-border: rgba(2, 132, 199, 0.2);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --accent: #0284c7;
+            --accent-hover: #0ea5e9;
+            --btn-gradient: linear-gradient(135deg, #0284c7, #0ea5e9);
+            --success-bg: #dcfce7;
+            --success-border: #22c55e;
+            --success-text: #166534;
+            --error-bg: #fee2e2;
+            --error-border: #ef4444;
+            --error-text: #991b1b;
+            --focus-ring: #facc15;
+            --option-bg: rgba(255, 255, 255, 0.5);
+            --option-hover: rgba(2, 132, 199, 0.1);
+        }
+
+        /* Dark theme */
+        body.dark {
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e293b;
+            --card-bg: rgba(30, 41, 59, 0.95);
+            --card-border: rgba(56, 189, 248, 0.2);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --accent: #38bdf8;
+            --accent-hover: #7dd3fc;
+            --btn-gradient: linear-gradient(135deg, #0284c7, #38bdf8);
+            --success-bg: #064e3b;
+            --success-border: #10b981;
+            --success-text: #a7f3d0;
+            --error-bg: #7f1d1d;
+            --error-border: #f87171;
+            --error-text: #fecaca;
+            --focus-ring: #facc15;
+            --option-bg: rgba(255, 255, 255, 0.05);
+            --option-hover: rgba(56, 189, 248, 0.2);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, Tahoma, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            min-height: 100vh;
+            color: var(--text-primary);
+            padding: 24px 16px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #0284c7, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            background: var(--card-bg);
+            backdrop-filter: blur(4px);
+            padding: 12px 20px;
+            border-radius: 60px;
+            border: 1px solid var(--card-border);
+        }
+        .btn {
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--accent);
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary {
+            background: var(--btn-gradient);
+            border: none;
+            color: white;
+        }
+        .btn-primary:hover, .btn-primary:focus-visible {
+            transform: translateY(-2px);
+            filter: brightness(1.03);
+            outline: 3px solid var(--focus-ring);
+        }
+        .btn-outline {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .btn-outline:hover, .btn-outline:focus-visible {
+            background: var(--accent);
+            color: white;
+            outline: 3px solid var(--focus-ring);
+        }
+        .icon-btn {
+            font-size: 1.2rem;
+            padding: 6px 16px;
+        }
+
+        .filter-panel {
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 18px 22px;
+            margin-bottom: 28px;
+            border: 1px solid var(--card-border);
+        }
+        .filter-row {
+            margin-bottom: 16px;
+        }
+        .filter-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .filter-chip {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 8px 18px;
+            border-radius: 60px;
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: transform 0.15s, background 0.2s, box-shadow 0.2s;
+        }
+        body.dark .filter-chip {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .filter-chip:hover, .filter-chip:focus-visible {
+            transform: translateY(-2px);
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            outline: 3px solid var(--focus-ring);
+        }
+        .filter-chip.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: scale(0.98);
+        }
+
+        .progress-section {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 6px 12px;
+            margin-bottom: 25px;
+        }
+        .progress-bar {
+            background: #cbd5e1;
+            border-radius: 20px;
+            height: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0284c7, #10b981);
+            border-radius: 20px;
+            transition: width 0.25s;
+        }
+
+        .questions-area {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+        .question-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--card-border);
+            border-radius: 32px;
+            padding: 24px;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .question-card:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--focus-ring);
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .q-badge {
+            background: var(--accent);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .q-type {
+            background: #10b981;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: #0f172a;
+            font-weight: bold;
+        }
+        body.dark .q-type {
+            color: #0f172a;
+        }
+        .q-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-item {
+            background: var(--option-bg);
+            border-radius: 60px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: transform 0.1s, background 0.2s, border-color 0.2s, color 0.2s;
+        }
+        .option-item:hover, .option-item:focus-visible {
+            transform: translateX(6px);
+            background: var(--option-hover);
+            border-color: var(--accent);
+            outline: none;
+        }
+        .option-prefix {
+            font-weight: bold;
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .option-item.correct-answer {
+            background: var(--success-bg) !important;
+            border-color: var(--success-border) !important;
+            color: var(--success-text) !important;
+        }
+        .option-item.correct-answer .option-prefix {
+            background: var(--success-border);
+            color: white;
+        }
+
+        .option-item.wrong-answer {
+            background: var(--error-bg) !important;
+            border-color: var(--error-border) !important;
+            color: var(--error-text) !important;
+        }
+        .option-item.wrong-answer .option-prefix {
+            background: var(--error-border);
+            color: white;
+        }
+
+        .option-item.disabled-option {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .feedback {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent);
+            color: var(--text-primary);
+        }
+        .feedback.correct {
+            display: block;
+            background: var(--success-bg);
+            border-left-color: var(--success-border);
+            color: var(--success-text);
+        }
+        .feedback.wrong {
+            display: block;
+            background: var(--error-bg);
+            border-left-color: var(--error-border);
+            color: var(--error-text);
+        }
+
+        .essay-area textarea, .report-area textarea {
+            width: 100%;
+            background: var(--option-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            margin: 10px 0;
+        }
+        .small-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: 0.1s;
+            color: var(--text-primary);
+        }
+        .small-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+        .model-answer {
+            display: none;
+            margin-top: 10px;
+            padding: 12px;
+            background: rgba(2, 132, 199, 0.1);
+            border-radius: 20px;
+        }
+        .rubric {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            padding: 6px 10px;
+            background: rgba(2, 132, 199, 0.1);
+            border-radius: 12px;
+        }
+
+        .submit-exam-wrapper {
+            text-align: center;
+            margin: 35px 0 20px;
+        }
+        .btn-large {
+            padding: 14px 36px;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #10b981, #0284c7);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+        .btn-large:hover, .btn-large:focus-visible {
+            transform: scale(1.02);
+            outline: 3px solid var(--focus-ring);
+        }
+
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .result-card {
+            background: var(--card-bg);
+            max-width: 600px;
+            width: 100%;
+            border-radius: 36px;
+            padding: 28px;
+            border: 1px solid var(--accent);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            margin: 20px auto;
+            background: linear-gradient(135deg, #0284c7, #10b981);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: bold;
+            color: white;
+        }
+        .mistake-item {
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 20px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--card-border);
+            padding-top: 20px;
+        }
+        .footer-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        #loadStatus {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 650px) {
+            .toolbar { gap: 8px; }
+            .btn { padding: 6px 14px; }
+            footer { font-size: 0.7rem; }
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-  <div class="hero"><h1>⚙️ Engineering Interactive Exam</h1></div>
-  <div class="toolbar">
-    <button class="btn btn-primary" id="newExamBtn">🔄 New Exam</button>
-    <div style="display:flex; gap:6px;">
-      <button class="btn icon-btn" id="darkModeBtn">🌙</button>
-      <button class="btn icon-btn" id="lightModeBtn">☀️</button>
+    <div class="hero">
+        <h1>⚙️ Engineering Interactive Exam</h1>
     </div>
-  </div>
-  <div class="filter-panel">
-    <div class="filter-row">
-      <div class="filter-title">📂 Filter by Topic</div>
-      <div class="filter-buttons" id="categoryFilters"></div>
+
+    <div class="toolbar">
+        <button class="btn btn-primary" id="newExamBtn">🔄 New Exam</button>
+        <div style="display: flex; gap: 6px;">
+            <button class="btn icon-btn" id="darkModeBtn">🌙</button>
+            <button class="btn icon-btn" id="lightModeBtn">☀️</button>
+        </div>
     </div>
-    <div class="filter-row">
-      <div class="filter-title">📝 Filter by Type</div>
-      <div class="filter-buttons" id="typeFilters"></div>
+
+    <div class="filter-panel">
+        <div class="filter-row">
+            <div class="filter-title">📂 Filter by Topic</div>
+            <div class="filter-buttons" id="categoryFilters"></div>
+        </div>
+        <div class="filter-row">
+            <div class="filter-title">📝 Filter by Type</div>
+            <div class="filter-buttons" id="typeFilters"></div>
+        </div>
+        <div>
+            <button class="btn" id="resetFiltersBtn" style="font-size:0.7rem;">🗑️ Reset Filters</button>
+        </div>
     </div>
-    <div><button class="btn" id="resetFiltersBtn" style="font-size:0.7rem;">🗑️ Reset Filters</button></div>
-  </div>
-  <div class="progress-section">
-    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
-  <div id="questionsArea" class="questions-area"></div>
-  <div class="submit-exam-wrapper">
-    <button class="btn-large" id="submitExamBtn">📊 Submit Exam & Evaluate</button>
-  </div>
-  <footer>
-    Designed and developed by 
-    <a href="https://www.linkedin.com/in/ahmed-mohammed-ahmed-saber-abdelhamid-b46249324" target="_blank" rel="noopener noreferrer" class="footer-link">
-      Ahmed Al-Sayad
-    </a> 
-    © 2026 All rights reserved
-  </footer>
+
+    <div class="progress-section">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+
+    <div id="loadStatus" style="text-align:center; padding:20px; font-size:0.9rem;"></div>
+    <div id="questionsArea" class="questions-area"></div>
+
+    <div class="submit-exam-wrapper">
+        <button class="btn-large" id="submitExamBtn">📊 Submit Exam & Evaluate</button>
+    </div>
+
+    <footer>
+        Designed and developed by 
+        <a href="https://www.linkedin.com/in/ahmed-mohammed-ahmed-saber-abdelhamid-b46249324" target="_blank" rel="noopener noreferrer" class="footer-link">
+            Ahmed Al-Sayad
+        </a> 
+        © 2026 All rights reserved
+    </footer>
 </div>
 
 <div id="resultModal" class="result-modal">
-  <div class="result-card">
-    <h2 style="text-align:center;">📋 Your Score</h2>
-    <div class="score-circle" id="scorePercent">0%</div>
-    <p id="scoreMsg" style="text-align:center; margin:10px 0;"></p>
-    <div id="mistakesList"></div>
-    <div style="display:flex; gap:12px; justify-content:center; margin-top:20px;">
-      <button class="btn btn-primary" id="closeResultBtn">Close</button>
-      <button class="btn" id="newExamFromResultBtn">New Exam</button>
+    <div class="result-card">
+        <h2 style="text-align:center;">📋 Your Score</h2>
+        <div class="score-circle" id="scorePercent">0%</div>
+        <p id="scoreMsg" style="text-align:center; margin:10px 0;"></p>
+        <div id="mistakesList"></div>
+        <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+            <button class="btn btn-primary" id="closeResultBtn">Close</button>
+            <button class="btn" id="newExamFromResultBtn">New Exam</button>
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-// ============= الأسئلة مضمنة هنا (219 سؤالاً) =============
-const FULL_BANK = [
-{"id":1,"category":"Grammar","type":"mcq","question":"Some engineers ____________ many design specifications.","options":["give","gives","are give","is give"],"correct":0,"explanation":"The subject 'Some engineers' is plural, so the present simple verb 'give' (plural form) is correct."},
-{"id":2,"category":"Grammar","type":"mcq","question":"Taylor and Adam _______________ expert troubleshooters.","options":["be","is","are","does"],"correct":2,"explanation":"The compound subject 'Taylor and Adam' is plural, so the verb 'are' is correct."},
-{"id":3,"category":"Grammar","type":"mcq","question":"____________ your colleagues analyze stress factors accurately.","options":["Are","Does","Do","Is"],"correct":2,"explanation":"Use 'Do' with the plural subject 'your colleagues' in questions."},
-{"id":4,"category":"Grammar","type":"mcq","question":"How many CAD models ________ your team create this month?","options":["are","were","did","do"],"correct":2,"explanation":"'this month' indicates a past time period, so the past simple with 'did' is correct."},
-{"id":5,"category":"Grammar","type":"mcq","question":"He is skilled in programming, but he _____________ work on this project now.","options":["isn't","wasn't","doesn't","don't"],"correct":2,"explanation":"Negative present simple with singular subject 'he' uses 'doesn't'."},
-{"id":6,"category":"Grammar","type":"mcq","question":"He has been explaining the algorithm for hours, but I __ grasp it.","options":["don't","wasn't","isn't","am not"],"correct":0,"explanation":"'I' takes 'don't' for negation in the present simple."},
-{"id":7,"category":"Grammar","type":"mcq","question":"How often ______ you conduct safety inspections in your department?","options":["are","do","was","does"],"correct":1,"explanation":"Use 'do' with the subject 'you' in questions about habits."},
-{"id":8,"category":"Grammar","type":"mcq","question":"She ___________ enjoy attending engineering conferences. So, she ___________ attends them regularly.","options":["doesn't / always","doesn't / never","isn't / never","isn't / hardly ever"],"correct":0,"explanation":"'doesn't enjoy' followed by the contrast 'always attends'."},
-{"id":9,"category":"Grammar","type":"mcq","question":"None of my colleagues ________ neglects safety protocols.","options":["doesn't","does","never","isn't"],"correct":1,"explanation":"'None of' + plural noun can take a singular verb in formal style, 'does' is the closest correct form here."},
-{"id":10,"category":"Grammar","type":"mcq","question":"How many engineers in your team ________ coding?","options":["knows","are knowing","does know","know"],"correct":3,"explanation":"The subject 'engineers' is plural, so the present simple verb 'know' (plural form) is correct."},
-{"id":11,"category":"Grammar","type":"mcq","question":"We ________ our equipment after every operation.","options":["clean","are clean","cleaning","cleans"],"correct":0,"explanation":"The subject 'We' is plural, so the present simple verb 'clean' is correct."},
-{"id":12,"category":"Grammar","type":"mcq","question":"My team ___________ work overtime during project deadlines.","options":["isn't","doesn't","don't","aren't"],"correct":1,"explanation":"'team' is treated as a singular collective noun in British English, so 'doesn't' is correct."},
-{"id":13,"category":"Grammar","type":"mcq","question":"Our experiments ___________ at precisely scheduled times.","options":["starts","starting","are start","start"],"correct":3,"explanation":"The subject 'experiments' is plural, so the present simple verb 'start' (no 's') is correct."},
-{"id":14,"category":"CV","type":"mcq","question":"In an engineering CV, what should be included in the 'Contact Information' section?","options":["Full name, email, phone, LinkedIn, portfolio","Only name and email","Home address and age","Social media usernames"],"correct":0,"explanation":"Contact information should include full name, professional email, phone number, LinkedIn profile, and portfolio link."},
-{"id":15,"category":"CV","type":"mcq","question":"Which bullet point is the STRONGEST for an engineering CV using STAR?","options":["Worked on improving the cooling system.","Responsible for designing a bridge.","Redesigned the HVAC cooling cycle using SolidWorks, reducing energy consumption by 15%.","Helped write lab safety documents."],"correct":2,"explanation":"This uses a strong action verb (Redesigned), a specific tool (SolidWorks), and a quantifiable result (15% reduction)."},
-{"id":16,"category":"Motivation","type":"mcq","question":"What is the purpose of 'Body Paragraph 2' in a motivation letter?","options":["Demonstrate research about the company","List all technical skills","Repeat the CV","Ask for salary"],"correct":0,"explanation":"The second body paragraph shows you have researched the company and explains why its values align with your career goals."},
-{"id":17,"category":"Recommendation","type":"mcq","question":"A professional recommendation letter should be written by:","options":["A former manager or supervisor","A family member","A friend","A classmate"],"correct":0,"explanation":"Professional recommendation letters should be written by a former manager, supervisor, or senior colleague."},
-{"id":18,"category":"Grammar","type":"mcq","question":"We used ___ IEEE referencing style for our report.","options":["a","an","the","no article"],"correct":1,"explanation":"'IEEE' starts with a vowel sound (Eye), so 'an' is used."},
-{"id":19,"category":"Grammar","type":"mcq","question":"___ unique hardware configuration was required.","options":["A","An","The","Some"],"correct":0,"explanation":"'unique' begins with a /juː/ sound (y sound), so 'a' is used."},
-{"id":20,"category":"Grammar","type":"mcq","question":"Please refer to ___ oscilloscope on the workbench.","options":["a","an","the","any"],"correct":2,"explanation":"The oscilloscope is specific (on the workbench), so 'the' is used."},
-{"id":21,"category":"Grammar","type":"mcq","question":"It takes ___ hour to complete the simulation.","options":["a","an","the","no article"],"correct":1,"explanation":"'hour' starts with a vowel sound (our), so 'an' is used."},
-{"id":22,"category":"Intro","type":"mcq","question":"The purpose of a preamble is to ___ the study.","options":["conclude","set the tone","cite sources","list data"],"correct":1,"explanation":"The preamble sets the tone and engages the reader."},
-{"id":23,"category":"Intro","type":"mcq","question":"Which section clarifies what a study will NOT cover?","options":["Background","Scope","Limitations","Problem Statement"],"correct":2,"explanation":"Limitations specify what the study will not cover."},
-{"id":24,"category":"Intro","type":"mcq","question":"A problem statement must be technically ___.","options":["vague","emotional","grounded","optional"],"correct":2,"explanation":"A problem statement should be objective and fact-based."},
-{"id":25,"category":"Clauses","type":"mcq","question":"Identify the clause type: We must determine 'why the system rebooted'.","options":["Noun Clause","Adjective Clause","Adverb Clause","Independent Clause"],"correct":0,"explanation":"The clause 'why the system rebooted' acts as the object of 'determine', therefore it is a noun clause."},
-{"id":26,"category":"Clauses","type":"mcq","question":"Identify the clause type: The engineer 'who calibrated the device' ensured accuracy.","options":["Verb Clause","Noun Clause","Adjective Clause","Adverb Clause"],"correct":2,"explanation":"The clause 'who calibrated the device' describes the engineer, so it is an adjective clause."},
-{"id":27,"category":"Comprehension","type":"mcq","question":"Which section establishes context and demonstrates relevance?","options":["Background Information","Sampling Technique","Data Analysis","System Architecture"],"correct":0,"explanation":"The Background Information section provides context and shows the importance of the topic."},
-{"id":28,"category":"Comprehension","type":"mcq","question":"A clear statement of the research question is the ___?","options":["Literature Review","Significance","Problem Statement","Methodology"],"correct":2,"explanation":"The Problem Statement clearly defines the research question."},
-{"id":29,"category":"Comprehension","type":"mcq","question":"Boundaries of the study (what it will not cover) are found in ___?","options":["Ethical Considerations","Scope and Limitations","Research Design","Data Analysis"],"correct":1,"explanation":"The Scope and Limitations section defines what the study covers and what it does not."},
-{"id":30,"category":"Exam","type":"essay","question":"What is the primary goal of a literature review?","answer":"To identify research gaps and position the new study."},
-{"id":31,"category":"Exam","type":"essay","question":"Difference between microcontroller and microprocessor?","answer":"Microcontroller: integrated CPU, RAM, ROM, peripherals. Microprocessor: only CPU."},
-{"id":32,"category":"Exam","type":"report","question":"Write introduction for 'Smart Irrigation System'.","answer":"Background: water scarcity. Problem: traditional irrigation wastes 40% water. Aim: IoT system. Objectives: design, implement, test. Scope: one field. Significance: save water.","rubric":"Problem 30%, Objectives 30%, Scope 20%, Significance 20%"},
-{"id":33,"category":"Exam","type":"mcq","question":"What does 'MPPT' stand for?","options":["Maximum Power Point Tracking","Minimum Power Point Tracking","Maximum Power Point Transfer","Minimum Power Point Transfer"],"correct":0,"explanation":"MPPT stands for Maximum Power Point Tracking."},
-{"id":34,"category":"Exam","type":"mcq","question":"Which tense for completed actions?","options":["Present","Past","Future","Present perfect"],"correct":1,"explanation":"Past simple tense is used for completed actions."},
-{"id":35,"category":"Exam","type":"essay","question":"What is Validity?","answer":"Accuracy of measurement; the instrument measures what it intends to measure."},
-{"id":36,"category":"Exam","type":"mcq","question":"Correct order of introduction?","options":["Background→Problem→Objectives→Scope→Significance","Objectives→Background→Problem","Problem→Results→Conclusion","Scope→Methodology→Results"],"correct":0,"explanation":"Standard order: Background, Problem Statement, Objectives, Scope, Significance."},
-{"id":37,"category":"Structure","type":"mcq","question":"According to the hierarchical numbering system in academic reports, what is the correct format for a subsection inside a section?","options":["1-A","1.1.1","1.1.a","1/1/1"],"correct":1,"explanation":"Hierarchical numbering: chapter (1), section (1.1), subsection (1.1.1)."},
-{"id":38,"category":"Structure","type":"mcq","question":"Which level of numbering represents a main chapter in an academic report?","options":["1","1.1","1.1.1","1.1.1.1"],"correct":0,"explanation":"Main chapters are numbered with a single digit (1, 2, 3...)."},
-{"id":39,"category":"Intro","type":"mcq","question":"What is the main purpose of the 'Preamble' in Chapter One?","options":["To list all references","To introduce the general field using a funnel approach","To present the results","To describe the methodology"],"correct":1,"explanation":"The preamble introduces the general field using a funnel approach (broad to specific)."},
-{"id":40,"category":"Intro","type":"mcq","question":"The Preamble should start with ________ and gradually narrow down to the research topic.","options":["Specific details","Broad context","Literature review","Conclusion"],"correct":1,"explanation":"The preamble starts with a broad context and gradually narrows to the specific research topic."},
-{"id":41,"category":"Intro","type":"mcq","question":"The 'Background' subsection (1.2.1) primarily serves to:","options":["Define core terms and concepts","State the research objectives","List the limitations","Summarize the results"],"correct":0,"explanation":"The background subsection defines core terms and concepts."},
-{"id":42,"category":"Intro","type":"mcq","question":"The 'Motivation' subsection (1.2.2) explains:","options":["The historical development of the field","The industrial need or problem that drives the study","The research methodology","The statistical analysis"],"correct":1,"explanation":"The motivation section explains the industrial need or problem that drives the study."},
-{"id":43,"category":"Intro","type":"mcq","question":"According to the guidelines, the Problem Statement should focus strictly on:","options":["The proposed solution","The knowledge gap, flaw, or inefficiency","The research methodology","The expected results"],"correct":1,"explanation":"The problem statement must focus only on the knowledge gap, flaw, or inefficiency, not the solution."},
-{"id":44,"category":"Intro","type":"mcq","question":"Research Questions are derived directly from:","options":["The abstract","The literature review","The problem statement","The conclusion"],"correct":2,"explanation":"Research questions are derived directly from the problem statement."},
-{"id":45,"category":"Intro","type":"mcq","question":"How should the 'Aim of the Study' be formatted?","options":["A bulleted list","A detailed paragraph","One overarching sentence","A series of questions"],"correct":2,"explanation":"The aim of the study should be written as one overarching sentence."},
-{"id":46,"category":"Intro","type":"mcq","question":"What does the 'S' in SMART Objectives stand for?","options":["Simple","Specific","Standard","Systematic"],"correct":1,"explanation":"S = Specific"},
-{"id":47,"category":"Intro","type":"mcq","question":"What does the 'M' in SMART Objectives stand for?","options":["Meaningful","Measurable","Mandatory","Mechanical"],"correct":1,"explanation":"M = Measurable"},
-{"id":48,"category":"Intro","type":"mcq","question":"What does the 'A' in SMART Objectives stand for?","options":["Achievable","Abstract","Analytical","Automated"],"correct":0,"explanation":"A = Achievable"},
-{"id":49,"category":"Intro","type":"mcq","question":"What does the 'R' in SMART Objectives stand for?","options":["Reliable","Relevant","Rapid","Random"],"correct":1,"explanation":"R = Relevant"},
-{"id":50,"category":"Intro","type":"mcq","question":"What does the 'T' in SMART Objectives stand for?","options":["Time-bound","Technical","Theoretical","Testable"],"correct":0,"explanation":"T = Time-bound"},
-{"id":51,"category":"Intro","type":"mcq","question":"The 'Scope of the Study' should explicitly state:","options":["What the study covers and its boundaries","The expected results","The research questions","The acknowledgements"],"correct":0,"explanation":"The scope defines what the study covers and its boundaries, explicitly stating exclusions."},
-{"id":52,"category":"Intro","type":"tf","question":"The Scope of the Study should claim that the study covers everything possible.","options":["True","False"],"correct":1,"explanation":"The scope must clearly state boundaries and exclusions, not claim coverage of everything."},
-{"id":53,"category":"Intro","type":"mcq","question":"The 'Significance of the Study' highlights beneficiaries for:","options":["Industry and Academia only","Industry, Academia, and Society","The researcher only","The funding agency only"],"correct":1,"explanation":"Significance highlights beneficiaries: industry, academia, and society."},
-{"id":54,"category":"Intro","type":"mcq","question":"The 'Organization of the Thesis' provides:","options":["A summary of results","A sequential roadmap summarizing each chapter","A list of figures","The abstract"],"correct":1,"explanation":"Organization of the thesis provides a sequential roadmap summarizing each chapter."},
-{"id":55,"category":"Style","type":"tf","question":"Personal pronouns like 'I' and 'We' should be used frequently in academic writing.","options":["True","False"],"correct":1,"explanation":"Avoid personal pronouns (I, We) and use passive voice instead in academic writing."},
-{"id":56,"category":"Style","type":"tf","question":"Slang and contractions (like 'isn't', 'don't') are acceptable in formal academic writing.","options":["True","False"],"correct":1,"explanation":"Avoid slang and contractions in formal academic writing."},
-{"id":57,"category":"Style","type":"tf","question":"Each sentence should convey one idea concisely, avoiding rambling.","options":["True","False"],"correct":0,"explanation":"Each sentence should convey one idea concisely, avoiding rambling."},
-{"id":58,"category":"Mistakes","type":"mcq","question":"What is a common mistake in numbering sections?","options":["Using strict hierarchy","Skipping numbers or inconsistent numbering","Using Roman numerals","Using decimal points"],"correct":1,"explanation":"Common mistake: missing or skipping numbers instead of following strict hierarchy."},
-{"id":59,"category":"Mistakes","type":"mcq","question":"What is a common mistake in the Problem Statement?","options":["Focusing on the knowledge gap","Being specific","Presenting the solution","Explaining the flaw"],"correct":2,"explanation":"Common mistake: presenting the solution inside the problem statement instead of focusing on the gap."},
-{"id":60,"category":"Mistakes","type":"mcq","question":"What is a common mistake in writing Objectives?","options":["Using action verbs","Being measurable","Using vague terms like 'To understand'","Being realistic"],"correct":2,"explanation":"Common mistake: using vague terms like 'To understand' instead of specific, measurable verbs."},
-{"id":61,"category":"Mistakes","type":"mcq","question":"What is a common mistake regarding the Scope?","options":["Explicitly stating boundaries","Listing exclusions","Claiming the study covers everything","Being specific about what is included"],"correct":2,"explanation":"Common mistake: claiming the study covers everything instead of defining boundaries and exclusions."},
-{"id":62,"category":"Mistakes","type":"mcq","question":"What is a common mistake in the Significance section?","options":["Focusing on industrial benefits","Focusing on academic benefits","Writing 'This helps me get my degree'","Highlighting societal impact"],"correct":2,"explanation":"Common mistake: writing 'This helps me get my degree' instead of focusing on industrial/academic benefits."},
-{"id":63,"category":"Structure","type":"mcq","question":"Match: Which section 'Introduces the general field broadly using a funnel approach'?","options":["Preamble","Background & Motivation","Scope of the Study","Significance of the Study"],"correct":0,"explanation":"The Preamble introduces the general field using a funnel approach."},
-{"id":64,"category":"Structure","type":"mcq","question":"Match: Which section 'Explains concepts, key terms, and justifies the need for research'?","options":["Preamble","Background & Motivation","Scope of the Study","Organization of the Thesis"],"correct":1,"explanation":"Background & Motivation explains concepts, key terms, and justifies the need for research."},
-{"id":65,"category":"Structure","type":"mcq","question":"Match: Which section 'Strictly defines boundaries and lists explicit exclusions'?","options":["Preamble","Background & Motivation","Scope of the Study","Significance of the Study"],"correct":2,"explanation":"The Scope of the Study defines boundaries and lists exclusions."},
-{"id":66,"category":"Structure","type":"mcq","question":"Match: Which section 'Highlights the practical/academic importance and beneficiaries'?","options":["Preamble","Background & Motivation","Scope of the Study","Significance of the Study"],"correct":3,"explanation":"The Significance of the Study highlights practical/academic importance and beneficiaries."},
-{"id":67,"category":"Structure","type":"mcq","question":"Match: Which section 'Provides a brief roadmap summarizing each chapter'?","options":["Preamble","Background & Motivation","Scope of the Study","Organization of the Thesis"],"correct":3,"explanation":"Organization of the Thesis provides a brief roadmap summarizing each chapter."},
-{"id":68,"category":"Structure","type":"mcq","question":"Which format represents the correct numbering for a subsection?","options":["Section 1-1","1.A","1.1.1","1.I.1"],"correct":2,"explanation":"The correct numbering for a subsection is 1.1.1."},
-{"id":69,"category":"Style","type":"mcq","question":"When writing academic text, you should rigorously eliminate:","options":["Specific definitions","Personal pronouns (I, We)","Third-person","Passive voice"],"correct":1,"explanation":"Eliminate personal pronouns (I, We) from academic writing."},
-{"id":70,"category":"CV","type":"mcq","question":"The 'Professional Summary' in an engineering CV should be:","options":["A concise 3-4 line paragraph","A full-page description","A list of all previous jobs","A repetition of the contact information"],"correct":0,"explanation":"The professional summary should be a concise 3-4 line paragraph highlighting key skills and experience."},
-{"id":71,"category":"CV","type":"mcq","question":"Why should engineers categorize their skills into groups like 'Software & Tools', 'Hardware/Equipment', and 'Methodologies'?","options":["To make the CV longer","To pass Applicant Tracking Systems (ATS) and improve readability","To hide weak skills","To save space"],"correct":1,"explanation":"Categorizing skills helps pass Applicant Tracking Systems (ATS) and improves readability."},
-{"id":72,"category":"CV","type":"mcq","question":"Which of the following is an example of 'Software & Tools' skill for a mechanical engineer?","options":["Oscilloscope","CNC Machining","SolidWorks","PLC Programming"],"correct":2,"explanation":"SolidWorks is design software, which falls under 'Software & Tools'."},
-{"id":73,"category":"CV","type":"mcq","question":"Which of the following is an example of 'Hardware/Equipment' skill?","options":["MATLAB","Python","Oscilloscope","Agile"],"correct":2,"explanation":"Oscilloscope is a hardware/equipment skill."},
-{"id":74,"category":"CV","type":"mcq","question":"Which of the following is an example of 'Methodologies' skill?","options":["AutoCAD","Finite Element Analysis (FEA)","Python","SAP2000"],"correct":1,"explanation":"Finite Element Analysis (FEA) is a methodology used in engineering."},
-{"id":75,"category":"CV","type":"mcq","question":"What does the 'S' in the STAR method stand for?","options":["Situation","Solution","Summary","Skill"],"correct":0,"explanation":"S = Situation (the context or background)."},
-{"id":76,"category":"CV","type":"mcq","question":"What does the 'T' in the STAR method stand for?","options":["Task","Time","Tool","Team"],"correct":0,"explanation":"T = Task (the task or responsibility)."},
-{"id":77,"category":"CV","type":"mcq","question":"What does the 'A' in the STAR method stand for?","options":["Action","Achievement","Analysis","Approach"],"correct":0,"explanation":"A = Action (the action taken)."},
-{"id":78,"category":"CV","type":"mcq","question":"What does the 'R' in the STAR method stand for?","options":["Result","Reason","Review","Requirement"],"correct":0,"explanation":"R = Result (the measurable outcome)."},
-{"id":79,"category":"CV","type":"mcq","question":"According to the guide, which bullet point is the STRONGEST for an engineering CV?","options":["Worked on improving the cooling system.","Assisted in the maintenance of hydraulic presses.","Redesigned the HVAC cooling cycle using SolidWorks, reducing energy consumption by 15% and saving $10,000 annually.","Helped write lab safety documents."],"correct":2,"explanation":"This bullet point uses a strong action verb (Redesigned), a specific tool (SolidWorks), and quantifiable results (15% and $10,000)."},
-{"id":80,"category":"CV","type":"tf","question":"Professional experience bullet points should focus on duties rather than accomplishments.","options":["True","False"],"correct":1,"explanation":"Focus on accomplishments (achievements), not just duties."},
-{"id":81,"category":"CV","type":"mcq","question":"What should junior engineers include in their CV regarding academic projects?","options":["Capstone projects with specific contribution and tools used","Only the course names","No projects","Only the GPA"],"correct":0,"explanation":"Include capstone projects with your specific contribution and the tools used."},
-{"id":82,"category":"CV","type":"mcq","question":"In the example of Ahmed El-Sayed's CV, what was his capstone project?","options":["Solar-powered water desalination unit","HVAC system design","Bridge structural analysis","Robot arm controller"],"correct":0,"explanation":"His capstone project was a solar-powered water desalination unit."},
-{"id":83,"category":"CV","type":"mcq","question":"In Ahmed El-Sayed's CV, by what percentage did he optimize system efficiency?","options":["15%","20%","30%","12%"],"correct":1,"explanation":"He optimized system efficiency by 20%."},
-{"id":84,"category":"Motivation","type":"mcq","question":"What is the purpose of the 'Introduction (The Hook)' in a motivation letter?","options":["State the position and provide a strong opening statement about enthusiasm and top qualification","List all technical skills","Repeat the CV","Ask for salary"],"correct":0,"explanation":"The introduction (hook) states the position, expresses enthusiasm, and highlights the top qualification."},
-{"id":85,"category":"Motivation","type":"mcq","question":"What should 'Body Paragraph 1 (Why You?)' in a motivation letter highlight?","options":["The company's mission and values","1-2 major technical achievements connected to the job requirements","Personal hobbies","Education history"],"correct":1,"explanation":"Body paragraph 1 highlights 1-2 major technical achievements linked to the job requirements."},
-{"id":86,"category":"Motivation","type":"mcq","question":"What is the recommended sign-off for a motivation letter?","options":["Best wishes","Sincerely, followed by your name","Yours faithfully","Regards"],"correct":1,"explanation":"The recommended sign-off is 'Sincerely,' followed by your name."},
-{"id":87,"category":"Motivation","type":"mcq","question":"In Kareem Youssef's motivation letter, what improvement did he achieve by migrating to microservices?","options":["Improved system uptime from 95% to 99.9% and reduced API response time by 40%","Increased server count","Reduced team size","Improved UI"],"correct":0,"explanation":"He improved system uptime from 95% to 99.9% and reduced API response time by 40%."},
-{"id":88,"category":"Motivation","type":"mcq","question":"What company did Kareem Youssef apply to and what initiative did he mention?","options":["InnovateTech Solutions - SmartPay AI","Google - Android Auto","Microsoft - Azure","Amazon - AWS"],"correct":0,"explanation":"He applied to InnovateTech Solutions and mentioned their 'SmartPay AI' initiative."},
-{"id":89,"category":"Recommendation","type":"mcq","question":"What is the primary focus of a professional recommendation letter?","options":["Practical work skills, teamwork, reliability, and contributions to company goals","Academic standing and research ability","Personal hobbies","Financial status"],"correct":0,"explanation":"A professional recommendation focuses on practical work skills, teamwork, reliability, and contributions to company goals."},
-{"id":90,"category":"Recommendation","type":"mcq","question":"In the professional recommendation example for Eng. Sara Ali, what software did she use for seismic analysis?","options":["ETABS and SAFE","AutoCAD and Revit","SolidWorks and ANSYS","MATLAB and Python"],"correct":0,"explanation":"She used ETABS and SAFE for seismic analysis."},
-{"id":91,"category":"Recommendation","type":"mcq","question":"An academic recommendation letter is typically written by:","options":["A professor, academic advisor, or department head","A former employer","A friend","A family member"],"correct":0,"explanation":"An academic recommendation is written by a professor, academic advisor, or department head."},
-{"id":92,"category":"Recommendation","type":"mcq","question":"What is the main focus of an academic recommendation letter?","options":["Intellect, research ability, learning speed, and academic projects","Practical work skills","Salary expectations","Company loyalty"],"correct":0,"explanation":"An academic recommendation focuses on intellect, research ability, learning speed, and academic projects."},
-{"id":93,"category":"Grammar","type":"mcq","question":"The circuit diagram ______ by the technician yesterday.","options":["was drawn","is drawn","has drawn","draws"],"correct":0,"explanation":"The action is completed in the past, so past simple passive 'was drawn' is correct."},
-{"id":94,"category":"Grammar","type":"mcq","question":"If the voltage ______ too high, the fuse will blow.","options":["goes","will go","went","has gone"],"correct":0,"explanation":"In first conditional, we use present simple in the 'if' clause."},
-{"id":95,"category":"Grammar","type":"mcq","question":"By next year, the project ______ completed.","options":["will be","will have been","is","was"],"correct":1,"explanation":"Future perfect passive 'will have been' is used for actions completed by a specific future time."},
-{"id":96,"category":"Grammar","type":"mcq","question":"All the data ______ been verified.","options":["has","have","is","are"],"correct":1,"explanation":"In scientific writing, 'data' is plural, so 'have been' is correct."},
-{"id":97,"category":"Grammar","type":"mcq","question":"Neither the manager nor the engineers ______ satisfied with the results.","options":["is","are","was","were"],"correct":1,"explanation":"With 'neither ... nor', the verb agrees with the nearest subject ('engineers' plural → 'are')."},
-{"id":98,"category":"Writing","type":"essay","question":"Explain the difference between validity and reliability in research methodology.","answer":"Validity refers to the accuracy of measurement – whether the instrument measures what it intends to measure. Reliability refers to the consistency of measurement – whether the results are repeatable under the same conditions."},
-{"id":99,"category":"Technical","type":"report","question":"Write the methodology section for a project on 'Designing a 4-bit binary counter using flip-flops'.","answer":"Research design: experimental. Materials: 74LS73 JK flip-flops, LEDs, resistors, breadboard, power supply. Procedure: 1) Connect four JK flip-flops in cascade. 2) Set initial state to 0000. 3) Apply clock pulses. 4) Observe binary sequence on LEDs. Validation: Compare output with truth table.","rubric":"Completeness 40%, clarity 30%, technical accuracy 30%"},
-{"id":100,"category":"IEEE","type":"mcq","question":"What is the correct way to format the title of a journal in IEEE citation?","options":["Italicized","Bold","Underlined","In quotation marks"],"correct":0,"explanation":"In IEEE style, journal titles are italicized (e.g., IEEE Trans. Power Electron.)."},
-{"id":101,"category":"IEEE","type":"mcq","question":"Which punctuation mark is used to separate the volume and issue number in an IEEE journal citation?","options":["comma","semicolon","colon","period"],"correct":0,"explanation":"Format: vol. 12, no. 3 – comma separates volume and issue."},
-{"id":102,"category":"IEEE","type":"tf","question":"In IEEE citation, the year is placed after the page numbers.","options":["True","False"],"correct":1,"explanation":"The year is placed before the page numbers: pp. 10-15, 2023."},
-{"id":103,"category":"Mistakes","type":"mcq","question":"Which of the following is a common mistake in writing the introduction?","options":["Too much background","Lack of problem statement","Using personal pronouns","All of the above"],"correct":3,"explanation":"All three are common mistakes. The introduction should be focused, include a clear problem statement, and avoid personal pronouns."},
-{"id":104,"category":"Writing","type":"essay","question":"What is the purpose of the abstract in a technical report?","answer":"The abstract provides a concise summary of the entire report, including the problem, methodology, key results, and main conclusions. It allows readers to quickly understand the essence of the report without reading the full document."},
-{"id":105,"category":"Technical","type":"report","question":"Write the conclusion and recommendations for a project on 'Energy-efficient lighting system'.","answer":"Conclusion: The proposed LED lighting system achieved a 40% reduction in energy consumption compared to conventional fluorescent lamps. Recommendations: 1) Integrate smart sensors for automatic dimming. 2) Conduct long-term durability tests. 3) Explore solar-powered options for off-grid areas.","rubric":"Summary of findings 30%, recommendations 40%, clarity 30%"},
-{"id":106,"category":"Grammar","type":"mcq","question":"What is the passive form of 'The team will test the software'?","options":["The software will be tested by the team","The software will test by the team","The software is tested by the team","The software was tested by the team"],"correct":0,"explanation":"Future passive: will be + past participle."},
-{"id":107,"category":"CV","type":"mcq","question":"Which of the following is a quantifiable achievement in a CV?","options":["Improved efficiency by 10%","Worked on a team","Responsible for design","Helped with testing"],"correct":0,"explanation":"Quantifiable achievements include specific numbers or percentages (e.g., 'by 10%')."},
-{"id":108,"category":"Intro","type":"mcq","question":"What should be avoided in the problem statement?","options":["Technical terms","Background information","The proposed solution","A clear description"],"correct":2,"explanation":"The problem statement should not include the solution; it should only describe the gap or issue."},
-{"id":109,"category":"Writing","type":"essay","question":"Describe the structure of a typical engineering report.","answer":"A typical engineering report includes: Title Page, Abstract, Table of Contents, Introduction (background, problem, objectives, scope, significance), Literature Review, Methodology, Implementation, Results, Discussion, Conclusion, Recommendations, References, and Appendices."},
-{"id":110,"category":"Grammar","type":"mcq","question":"Which tense is used to describe ongoing research in the introduction?","options":["Present simple","Past simple","Future simple","Present continuous"],"correct":0,"explanation":"Present simple is used for general facts and established knowledge in the introduction."},
-{"id":111,"category":"IEEE","type":"mcq","question":"In IEEE, how should you cite multiple authors in a reference list?","options":["First author et al.","All authors listed","Only first author","Use 'and others'"],"correct":1,"explanation":"IEEE lists all authors (up to 6) in the reference list. For more than 6, use et al."},
-{"id":112,"category":"Methodology","type":"mcq","question":"Which section of the methodology describes the tools and materials used?","options":["Research design","Data collection","Materials and Tools","Data analysis"],"correct":2,"explanation":"The 'Materials and Tools' section lists hardware, software, and equipment used in the research."},
-{"id":113,"category":"CV","type":"essay","question":"What are the key elements of a professional summary in a CV?","answer":"A professional summary should include: years of experience, key technical skills, major achievements (with numbers), and a clear career objective. It should be tailored to the specific job and kept concise (3-4 lines)."},
-{"id":114,"category":"Technical","type":"report","question":"Write the introduction for a project on 'Wireless Power Transfer System'.","answer":"Background: Wireless power transfer enables charging without physical connections. Problem: Current systems suffer from low efficiency and limited distance. Aim: Design a resonant inductive coupling system. Objectives: 1) Design transmitter and receiver coils. 2) Optimize frequency for maximum efficiency. 3) Test under various distances. Scope: 5W power transfer up to 10cm. Significance: Enables portable device charging.","rubric":"Problem statement 30%, objectives 30%, scope 20%, significance 20%"},
-{"id":115,"category":"Discussion","type":"mcq","question":"What is the role of the discussion chapter?","options":["To present new data","To interpret results","To list references","To describe methodology"],"correct":1,"explanation":"The discussion chapter interprets the results, explains their significance, and relates them to the objectives and literature."},
-{"id":116,"category":"IEEE","type":"mcq","question":"Which of the following is a correct IEEE citation for a book?","options":["[1] J. Smith, Digital Design, 3rd ed. New York: McGraw-Hill, 2020.","[1] Smith, J. (2020). Digital Design. McGraw-Hill.","[1] 'Digital Design', J. Smith, McGraw-Hill, 2020.","[1] J. Smith, Digital Design, New York, 2020."],"correct":0,"explanation":"Correct IEEE book format: [#] Initials Last name, Title, Edition. City: Publisher, Year."},
-{"id":117,"category":"Structure","type":"mcq","question":"In a technical report, the table of contents is usually placed:","options":["After the abstract","Before the title page","After the references","At the end"],"correct":0,"explanation":"The Table of Contents typically comes after the abstract and before the introduction."},
-{"id":118,"category":"Intro","type":"mcq","question":"What does the acronym 'SMART' stand for in objectives?","options":["Specific, Measurable, Achievable, Relevant, Time-bound","Simple, Modern, Advanced, Reliable, Testable","Systematic, Methodical, Analytical, Rational, Theoretical","Standard, Moderate, Active, Responsive, Technical"],"correct":0,"explanation":"SMART stands for Specific, Measurable, Achievable, Relevant, and Time-bound."},
-{"id":119,"category":"Writing","type":"essay","question":"Explain the importance of citing sources in academic writing.","answer":"Citing sources is important to: (1) give credit to original authors and avoid plagiarism, (2) allow readers to verify claims and explore further, (3) demonstrate the breadth of research, and (4) strengthen the credibility of the work."},
-{"id":120,"category":"CV","type":"mcq","question":"Which of the following is a soft skill?","options":["Programming","Problem-solving","Circuit design","Data analysis"],"correct":1,"explanation":"Problem-solving is a soft skill (interpersonal/transferable), while programming, circuit design, and data analysis are hard/technical skills."},
-{"id":121,"category":"Structure","type":"mcq","question":"Which part of a report is written last but appears first?","options":["Abstract","Introduction","Conclusion","References"],"correct":0,"explanation":"The Abstract is typically written last but placed at the very beginning of the report."},
-{"id":122,"category":"Intro","type":"essay","question":"What are the key structural components of the Introduction Chapter in an engineering research paper?","answer":"1. Preamble (The Hook): Starts broad with the general field and narrows down to the specific focus area, justifying the study's immediate relevance. \n2. Background and Motivation: Provides historical context, distinguishes between expected goals and current system failures, and highlights the research gap. \n3. Statement of the Problem: A clear, concise, and specific sentence focusing on the core issue or technical flaw that needs to be solved. \n4. Aim and Objectives: Defines the ultimate goal of the framework (Aim) and lists the actionable steps (Objectives) to achieve it. \n5. Scope and Limitations: Outlines the exact boundaries of what the study will and will not cover, alongside any resource or data constraints. \n6. Significance of the Study: Explains the potential impact, originality, value to stakeholders, and socio-technical contributions of the research. \n7. Organization of the Thesis: Acts as a sequential roadmap providing a brief summary of every subsequent chapter in the paper."},
-{"id":123,"category":"Intro","type":"essay","question":"What is the strict distinction between the 'Aim' and the 'Objectives' of a study?","answer":"Aim: It represents the ultimate, overarching top-level goal of the project or framework, usually written as a single sentence. \nObjectives: They are a numbered list of specific, actionable, and measurable goals that serve as a roadmap for the methodology. They must always start with action verbs such as Identify, Propose, Model, or Benchmark."},
-{"id":124,"category":"Intro","type":"essay","question":"What must the 'Statement of the Problem' strictly focus on, and what must it avoid?","answer":"Focus: It must focus strictly on a clear, well-defined, and measurable technical gap, defect, or inefficiency in current technology supported by evidence. \nAvoidance: It must strictly avoid presenting or detailing the solution within this section."},
-{"id":125,"category":"Intro","type":"essay","question":"Why are 'Scope and Limitations' critical during a thesis defense?","answer":"Scope: It explicitly defines what the study will not do, which protects the researcher by limiting the examiner's expectations to the stated focus. \nLimitations: It identifies external constraints beyond the researcher's control—such as data availability, sample size, or resource limitations."},
-{"id":126,"category":"Literature","type":"essay","question":"What is a 'Literature Review' and what are its primary purposes?","answer":"Definition: It is a systematic examination, synthesis, and critical evaluation of previously published research studies relevant to the topic. \nPurposes: \n- It establishes baseline background knowledge of existing technologies and theories. \n- It identifies missing links or research gaps that justify the current study. \n- It prevents the accidental duplication of completed research. \n- It justifies the selection of the chosen research methods or experimental design."},
-{"id":127,"category":"Literature","type":"essay","question":"What are the three common approaches to organizing sources logically in a Literature Review?","answer":"1. Chronological Approach: Organizes and tracks the historical development of the research over a specific timeline. \n2. Thematic Approach: Groups previous studies together based on shared core topics, themes, or categories. \n3. Methodological Approach: Compares and categorizes studies based on the specific research methods, tools, or experimental designs they utilized."},
-{"id":128,"category":"IEEE","type":"essay","question":"How does the IEEE Citation Style function within a technical paper?","answer":"In-Text Citation: It utilizes a referencing system based on numbers embedded inside square brackets, such as [1]. \nMultiple Sources: When citing multiple references at the same time, they are formatted using a hyphen or commas within the brackets, such as [2]-[4]. \nReference List: The references are numbered in the order they appear in the text, and the list is organized numerically. Each reference includes author initials, title, publication details, and year."},
-{"id":129,"category":"Intro","type":"mcq","question":"Which component of the Introduction Chapter is described as 'The Hook'?","options":["Background and Motivation","Preamble","Significance of the Study","Scope and Limitations"],"correct":1,"explanation":"The Preamble is often called 'The Hook' because it starts broad with the general field and gradually narrows down to the specific focus area, justifying the study's immediate relevance."},
-{"id":130,"category":"Intro","type":"essay","question":"What are the six essential components of the introduction in engineering research? Briefly explain the purpose of each component.","answer":"1. Background: Provides context and relevance of the research topic. \n2. Problem Statement: Clearly defines the issue or gap the research addresses. \n3. Research Objectives: States what the research aims to achieve (specific and measurable). \n4. Scope and Limitations: Describes the boundaries and constraints of the study. \n5. Significance of the Study: Explains the importance and potential impact of the research. \n6. Organization of the Report: Briefly summarizes the structure of the paper."},
-{"id":131,"category":"Intro","type":"essay","question":"Explain the difference between Scope and Limitations, giving an example of each.","answer":"Scope: What you choose to cover (e.g., 'This research focuses on residential solar panels only'). \nLimitations: Constraints beyond your control (e.g., 'Testing is limited to laboratory conditions due to budget constraints')."},
-{"id":132,"category":"Intro","type":"essay","question":"State the key tips for writing effective Research Objectives.","answer":"They should be: \n- Specific and clearly defined. \n- Measurable with clear criteria for success. \n- Begin with action verbs such as Design, Develop, Analyze, or Test. \n- Realistic and achievable within the available resources and time."},
-{"id":133,"category":"Methodology","type":"essay","question":"What are the common components of the Methodology chapter in an engineering graduation project?","answer":"The common components include: \n1. Research Design: Describes the overall approach. \n2. Sampling Techniques: Explains how participants or data were selected. \n3. Data Collection: Details the tools and methods used to gather data. \n4. Data Analysis: Outlines how the data was analyzed. \n5. Validity and Reliability: Discusses measures taken to ensure accuracy and consistency."},
-{"id":134,"category":"Implementation","type":"essay","question":"Explain the main purpose of the Implementation chapter in a technical report and what it should include.","answer":"The purpose is to explain how the theoretical design was translated into a practical solution. It should include: the tools and materials used, the step-by-step implementation process, the system architecture (block diagrams, schematics), challenges encountered and how they were overcome, and testing and validation procedures."},
-{"id":135,"category":"Literature","type":"essay","question":"What are the three basic questions a good literature review should answer?","answer":"1. What has been studied previously? \n2. What methodologies were used? \n3. What research gaps currently exist?"},
-{"id":136,"category":"Literature","type":"essay","question":"List four purposes for a literature review in technical reports according to the IEEE framework.","answer":"1. Establishing background knowledge. \n2. Identifying research gaps. \n3. Avoiding duplication of completed research. \n4. Supporting the chosen methodology."},
-{"id":137,"category":"IEEE","type":"essay","question":"List the general rules for using the IEEE citation style.","answer":"1. Use numbers in square brackets within the text (e.g., [1]). \n2. Arrange references in the order they appear in the text. \n3. Write authors' names as initials followed by surname. \n4. Italicize book and journal titles. \n5. Put article and chapter titles in quotation marks. \n6. Include volume, issue, page numbers, and year for journal articles."},
-{"id":138,"category":"Visualization","type":"essay","question":"When is it preferable to use each of the following: a line graph, a bar chart, and a table?","answer":"Line graph: To show change over time (trends). \nBar chart: To compare different categories. \nTable: To display the exact values of several variables."},
-{"id":139,"category":"Writing","type":"essay","question":"What is the importance of using the passive voice in technical writing? Give an example.","answer":"It is used to focus on the process or action rather than the person who performed it. This makes the writing more objective. \nExample: 'The circuit was built' instead of 'I built the circuit.'"},
-{"id":140,"category":"Writing","type":"essay","question":"Write a 'Problem Statement' for a topic on 'Designing a Smart Irrigation System'.","answer":"Traditional irrigation systems waste up to 40% of water due to manual scheduling and lack of real-time soil moisture monitoring. This leads to unnecessary water consumption and increased operational costs. There is an urgent need to develop an IoT-based smart irrigation system that can automatically adjust watering schedules based on soil moisture levels, weather forecasts, and plant water requirements to optimize water usage and improve crop yield."},
-{"id":141,"category":"CV","type":"essay","question":"Translate the following task from a CV draft into a strong achievement point using the [Action + Tool/Method + Numerical Result] format: 'Checking data from 3 sensors.'","answer":"Monitored real-time data from 3 ultrasonic sensors using MATLAB, reducing measurement errors by 10% and improving data acquisition accuracy by 15%."},
-{"id":142,"category":"Intro","type":"essay","question":"What is the difference between a literature review and an abstract in terms of focus, location, timing, purpose, and citations?","answer":"Abstract: Focuses on your own work, located in the front matter (before Chapter 1), written at the end, purpose is to summarize the entire project, and does not include citations. \nLiterature Review: Focuses on others' work, located in Chapter 2, written as part of the research foundation, purpose is to identify gaps and justify the need for your research, and is full of IEEE citations."},
-{"id":143,"category":"Intro","type":"essay","question":"Explain the difference between Research Objectives and Scope of Study in terms of the key question they answer, their content, and their writing style.","answer":"Research Objectives: Answer 'What do you want to achieve?', contain goals and desired outcomes, and begin with action verbs. \nScope of Study: Answer 'What are the limitations of your work?', describe topics covered and excluded, and describe areas, environments, and constraints."},
-{"id":144,"category":"Literature","type":"essay","question":"What is a research gap and why is it important to identify it?","answer":"A research gap is missing knowledge or unanswered questions in current studies. It identifies what previous studies haven't addressed, providing strong justification for the research and highlighting its importance in filling this gap."},
-{"id":145,"category":"Literature","type":"essay","question":"How do you identify a research gap in a literature review?","answer":"1. Conduct critical analysis (not just narration) to uncover weaknesses. 2. Answer essential questions: What has been studied? What methodologies? What gaps remain? 3. Identify limitations mentioned in previous studies' conclusions. 4. Use specific language indicating deficiency (e.g., 'Despite advancements...'). 5. Use the funnel approach to logically lead the reader to the gap."},
-{"id":146,"category":"Literature","type":"essay","question":"Explain the importance of identifying a research gap.","answer":"1. Justifying the research: demonstrates that you are not duplicating work. 2. Formulating the research problem: guides you in writing a sound and technical 'Problem Statement'."},
-{"id":147,"category":"Intro","type":"essay","question":"Explain the SMART rule in writing research objectives. Give one correct and one incorrect engineering objective with justification.","answer":"SMART stands for Specific, Measurable, Achievable, Relevant, and Time-bound. Correct: 'Design a 3-bit ALU using logic gates to reduce propagation delay by 15% within 2 weeks.' Incorrect: 'To understand how ALU works.' Justification: 'Understand' is vague and unmeasurable; the correct version includes specific actions and targets."},
-{"id":148,"category":"Literature","type":"essay","question":"What is the importance of the literature review in engineering reports? How does it contribute to identifying the research gap?","answer":"Importance: prevents duplication, establishes background knowledge, and supports methodology. It contributes by critically analyzing previous studies, comparing results, and highlighting unanswered questions or limitations, thus revealing the research gap."},
-{"id":149,"category":"Methodology","type":"essay","question":"Compare the content of the Methodology chapter (Chapter 3) and the Implementation chapter (Chapter 4) in an engineering graduation project.","answer":"Methodology (Chapter 3): Focuses on the 'research plan' and design of the study, including sampling, data collection, and analysis techniques. Implementation (Chapter 4): Focuses on the 'practical reality' of transforming the design into a working solution, including tools, software, hardware assembly, challenges encountered, and integration."},
-{"id":150,"category":"Visualization","type":"essay","question":"When is it preferable to use a Line Graph instead of a Bar Chart? Also, explain the '3-sentence rule' for commenting on figures.","answer":"Line Graph: Used to show trends over time. Bar Chart: Used to compare different categories. The 3-sentence rule: 1) State the location of the figure (e.g., 'Figure 1 shows...'). 2) State the fact or main trend (e.g., 'The voltage drops sharply after 5 seconds'). 3) State an exception or comparison (e.g., 'However, at 10 seconds, a spike was observed')."},
-{"id":151,"category":"CV","type":"essay","question":"Explain the difference between a CV and a Resume from an engineering perspective. How is the STAR method applied to describe professional experience?","answer":"CV: Academic, detailed (2+ pages), includes publications and projects. Resume: Industry-focused, concise (1 page). STAR method: Situation (context), Task (responsibility), Action (specific steps taken), Result (measurable outcome). It is used to quantify achievements with specific numbers."},
-{"id":152,"category":"Discussion","type":"essay","question":"What is the purpose of the Discussion and Conclusion chapter? What is the difference between Recommendations and Future Work?","answer":"Purpose: To interpret results and relate them to the previous objectives. Recommendations: Suggest immediate, practical solutions based on the findings. Future Work: Suggests new horizons or directions for further research beyond the current study."},
-{"id":153,"category":"Intro","type":"essay","question":"What is the formula for writing a strong problem statement? Explain each element.","answer":"The formula consists of three elements: Status Quo (description of the current situation), The Gap (what is wrong or missing), and The Impact (consequences of the gap such as costs or risks). These three elements together clearly define the problem to be addressed."},
-{"id":154,"category":"Intro","type":"essay","question":"What are the two main characteristics of a technically well-written problem statement?","answer":"1. Precision and Specificity: The statement should be very specific and supported by evidence or figures. 2. Brevity: The language should be clear and concise, avoiding unnecessary details."},
-{"id":155,"category":"Intro","type":"mcq","question":"What is the most common mistake students make when writing a problem statement?","options":["Being too specific","Using technical language","Introducing the solution within the statement","Making it too short"],"correct":2,"explanation":"The most common mistake is presenting the proposed solution inside the problem statement. The problem statement should focus only on the gap or defect, while the solution belongs in the objectives and methodology."},
-{"id":156,"category":"Intro","type":"essay","question":"Write a problem statement for a project on 'reducing energy waste in data centers' following the Status Quo + Gap + Impact formula.","answer":"Status Quo: Data centers currently consume up to 3% of global electricity and operate with an average Power Usage Effectiveness (PUE) of 1.5. Gap: Approximately 40% of this energy is wasted due to inefficient cooling systems and server underutilization, with no real-time optimization. Impact: This leads to annual energy costs exceeding $10 billion globally and contributes significantly to CO₂ emissions. There is a critical need to develop a predictive cooling management system that can reduce PUE to below 1.2."},
-{"id":157,"category":"IEEE","type":"essay","question":"What are the detailed rules for citing references in the IEEE system? Mention the in-text citation rules and the final bibliography formatting.","answer":"In-Text: Use numbers in square brackets (e.g., [1]), order them by first appearance, place after the information before the period, and for multiple sources use commas or hyphens. Bibliography: Numbered list in order of appearance, authors as initials before surname, article titles in quotes, book/journal titles italicized, and include specific data like volume, pages, and year."},
-{"id":158,"category":"IEEE","type":"essay","question":"Write the correct IEEE format for citing a website with the following details: Organization: IEEE, Title: 'IEEE Editorial Style Manual', Website: IEEE Author Center, URL: https://journals.ieeeauthorcenter.ieee.org, Accessed: Apr. 15, 2025.","answer":"[1] IEEE, 'IEEE Editorial Style Manual,' IEEE Author Center. [Online]. Available: https://journals.ieeeauthorcenter.ieee.org [Accessed: Apr. 15, 2025]."},
-{"id":159,"category":"IEEE","type":"essay","question":"Provide an example of how to cite a conference paper in IEEE format. Include all necessary elements.","answer":"[1] A. Author, 'Title of paper in sentence case,' in Proc. Name of Conference, City, Country, Year, pp. xx–xx. Example: [1] S. Gupta and L. Lee, 'A low-cost monitoring system for smart grids,' in Proc. IEEE Int. Conf. Smart Grid Commun., Vancouver, Canada, 2019, pp. 224–229."},
-{"id":160,"category":"Technical","type":"essay","question":"What topics are commonly covered in the 'Electronics and Digital Systems' category for engineering exams?","answer":"Common topics include: Design of a 4-bit Arithmetic Logic Unit (ALU), Shaft Encoder using Gray Code (focusing on transition errors), and Design of a Regulated DC Power Supply. These topics focus on digital design, logic circuits, and verification."},
-{"id":161,"category":"IoT","type":"essay","question":"What are the key engineering topics in the 'Internet of Things (IoT) and Smart Systems' category?","answer":"Key topics include: IoT-based Smart Irrigation System, Smart Home Access Control System using Facial Recognition, and Remote Smart Grid Monitoring. These topics allow for strong 'significance' statements and focus on sensors, connectivity, and real-world impact."},
-{"id":162,"category":"Renewable","type":"essay","question":"What topics are included in the 'Renewable Energy and Sustainability' category for technical reports?","answer":"Topics include: Improving Solar Panel Efficiency Using Advanced Materials (high cost, low efficiency in hot climates), Hybrid Wind Turbine System for Domestic Use, and Developing a Hydrogen Fuel Cell as an Alternative to Fossil Fuels. These are ideal for writing about climate change and sustainability."},
-{"id":163,"category":"Robotics","type":"essay","question":"What topics are recommended in the 'Robotics and Artificial Intelligence' category for engineering exams?","answer":"Topics include: Autonomous drone for agricultural surveying, Image recognition in autonomous vehicles using machine learning, and Designing a low-cost smart prosthetic limb. These require precise objectives using action verbs and focus on societal importance."},
-{"id":164,"category":"Control","type":"essay","question":"What topics fall under 'Control Systems Engineering' for technical report writing?","answer":"Topics include: Intelligent traffic management and congestion reduction system in cities, and Design of a seismic-resistant building system. These focus on using AI to improve traffic flow and structural engineering for risk reduction."},
-{"id":165,"category":"Intro","type":"essay","question":"What is the 'Funnel Approach' and how should it be used when writing the introduction for a technical report?","answer":"The funnel approach starts with broad information about the general technological development in the field, then narrows down to the specific problem, and concludes with the 'research gap' that your project will address. This creates a logical flow for the reader."},
-{"id":166,"category":"Exam","type":"report","question":"Write a complete technical report (Introduction and Methodology) about 'Design and Implementation of an IoT-Based Smart Irrigation System'.","answer":"Introduction: Background on water scarcity and agricultural needs. Problem: traditional irrigation wastes water. Aim: IoT system with soil moisture sensors. Objectives: 1) Design sensor network. 2) Program microcontroller. 3) Connect to mobile app. 4) Test in a real field. Scope: one agricultural field (2 acres). Significance: Reduce water waste by 30%. Methodology: Research design: experimental. Tools: Arduino, soil moisture sensors, ESP8266 WiFi module. Data collection: hourly readings for 2 weeks. Analysis: compare with manual irrigation. Validation: cross-check with weather data.","rubric":"Introduction 40% (problem 15%, objectives 15%, scope 5%, significance 5%), Methodology 40% (design 15%, tools 15%, analysis 10%), Structure 20%"},
-{"id":167,"category":"Exam","type":"report","question":"Write a complete technical report (Introduction and Methodology) about 'Efficiency Analysis of Hybrid Wind-Solar Power Systems for Residential Use'.","answer":"Introduction: Background on renewable energy adoption. Problem: intermittent power from single sources. Aim: analyze hybrid system efficiency. Objectives: 1) Design hybrid system. 2) Simulate in MATLAB. 3) Compare with standalone systems. Scope: residential load of 5kW. Limitations: no battery storage considered. Significance: increase renewable penetration. Methodology: Research design: simulation-based. Tools: MATLAB/Simulink, PV and wind models. Data collection: hourly solar and wind data. Analysis: compare monthly efficiency.","rubric":"Introduction 40% (problem 15%, objectives 15%, scope 5%, significance 5%), Methodology 40% (design 15%, tools 15%, analysis 10%), Structure 20%"},
-{"id":168,"category":"Literature","type":"essay","question":"Write a Literature Review for a report titled 'The Impact of Artificial Intelligence on Predictive Maintenance in Manufacturing'.","answer":"Introduction: Predictive maintenance is critical in manufacturing to reduce downtime. Previous studies have explored sensor-based monitoring and machine learning algorithms. Study [1] used vibration analysis with SVM achieving 90% accuracy. Study [2] applied deep learning to temperature data but lacked real-time implementation. Study [3] combined IoT with Random Forest, yet focused on a single machine type. Gap: Limited research on integrating multiple sensor modalities for real-time predictive maintenance. This study proposes an AI-based framework combining vibration, temperature, and acoustic data.","rubric":"Coverage of studies 30%, critical analysis 30%, identification of gap 30%, IEEE citations 10%"},
-{"id":169,"category":"Writing","type":"essay","question":"Write a concise Problem Statement for a project about 'High energy consumption in traditional cooling systems'.","answer":"Traditional cooling systems in commercial buildings consume up to 40% of total energy, largely due to outdated control strategies and lack of real-time optimization. This leads to excessive electricity costs and contributes to carbon emissions. There is an urgent need to develop an energy-efficient cooling management system that can reduce consumption by at least 25% while maintaining occupant comfort."},
-{"id":170,"category":"Intro","type":"essay","question":"Formulate two SMART objectives for a project aiming to 'Design a drone for agricultural surveillance'.","answer":"1. Design a lightweight drone frame (under 2kg) capable of carrying multispectral sensors, with a flight time of at least 30 minutes. 2. Develop and implement an obstacle avoidance algorithm in C++ that can detect objects at 5 meters and navigate around them in real-time."},
-{"id":171,"category":"Writing","type":"essay","question":"Rewrite this sentence in the correct technical style (passive voice): 'I tested the circuit using a digital multimeter and I found two errors.'","answer":"The circuit was tested using a digital multimeter, and two errors were identified."},
-{"id":172,"category":"Technical","type":"essay","question":"What is the importance of using block diagrams in engineering reports?","answer":"Block diagrams are important because they visually represent the system architecture, showing how components interact and data flows between them. They simplify complex systems, improve readability, and help readers understand the overall design without reading detailed technical descriptions."},
-{"id":173,"category":"Literature","type":"essay","question":"How do you write a Literature Review for the topic of 'access control systems'?","answer":"Start with an introduction to access control systems and their importance in security. Review previous studies on fingerprint, face, and RFID-based systems. Compare their accuracy, cost, and user acceptance. Identify gaps such as lack of multi-modal systems or low accuracy in certain conditions. Conclude by stating the gap your research will fill."},
-{"id":174,"category":"Methodology","type":"essay","question":"How do you write the Methodology chapter for an ALU (Arithmetic and Logic Unit) project?","answer":"1. Research Design: combinational logic circuit design. 2. Materials: 74LS181 IC, breadboard, logic probes, power supply. 3. Procedure: 1) Design truth table for operations. 2) Implement using K-map simplification. 3) Simulate using Proteus. 4) Build physical circuit. 4. Testing: apply input combinations and verify outputs. 5. Validation: compare with expected truth table."},
-{"id":175,"category":"Technical","type":"essay","question":"List the most common topics that appear in engineering exams related to 'Shaft Encoder using Gray Code'.","answer":"Focus areas include: Problem Statement (transition errors in binary code), Gray Code generation, design of the encoder disk, use of sensors (photodiodes), microcontroller programming, and validation of accuracy at different speeds."},
-{"id":176,"category":"IoT","type":"essay","question":"What is the significance of 'Remote Smart Grid Monitoring' as a topic for IoT projects?","answer":"It allows real-time monitoring of power distribution, reduces losses through early fault detection, and improves grid reliability. The research gap lies in traditional grids lacking advanced communication infrastructure."},
-{"id":177,"category":"Renewable","type":"essay","question":"What is the problem statement for a project on 'Improving Solar Panel Efficiency Using Advanced Materials'?","answer":"Current solar panels experience a significant drop in efficiency (up to 20%) at high temperatures, and their manufacturing costs remain high. This limits their adoption in hot climates. There is a need to develop advanced materials and cooling techniques to maintain efficiency above 90% at 50°C."},
-{"id":178,"category":"Robotics","type":"essay","question":"What are the SMART objectives for a project on 'Autonomous drone for agricultural surveying'?","answer":"1. Design a lightweight drone frame (under 2kg) with a payload capacity of 500g for multispectral sensors. 2. Develop a flight control algorithm that maintains stable flight in wind speeds up to 15 km/h. 3. Achieve 95% accuracy in crop health classification using image processing within 3 months."},
-{"id":179,"category":"Robotics","type":"essay","question":"What is the societal significance of designing a low-cost smart prosthetic limb?","answer":"Current prosthetic limbs are expensive (over $10,000), making them inaccessible to many amputees in developing countries. A low-cost smart prosthetic limb would improve mobility, quality of life, and enable users to participate in daily activities, addressing a major societal need."},
-{"id":180,"category":"Control","type":"essay","question":"Write a problem statement for a project on 'Intelligent traffic management and congestion reduction system'.","answer":"Urban traffic congestion causes an average delay of 40% in travel time, leading to increased fuel consumption and air pollution. Current traffic light systems operate on fixed schedules, failing to adapt to real-time traffic flow. There is a need to develop an AI-based system that optimizes traffic signals using real-time data to reduce congestion by at least 20%."},
-{"id":181,"category":"Intro","type":"essay","question":"What is the standard mark distribution for a comprehensive report question in engineering exams?","answer":"Typically, the report question is worth 30 marks out of a total of 50, while multiple-choice questions account for the remaining 20 marks. The report covers Chapter One (Introduction) and Chapter Three (Methodology) in detail."},
-{"id":182,"category":"Style","type":"essay","question":"What are the required standards for writing objectives in engineering reports?","answer":"Objectives should use action verbs (Design, Develop, Analyze, Test), avoid personal pronouns (I, We), and follow the heading numbering system (1.1, 1.2). They must also be SMART: Specific, Measurable, Achievable, Relevant, and Time-bound."},
-{"id":183,"category":"Intro","type":"mcq","question":"Which field does the topic 'Designing a Shaft Encoder using Gray Code' primarily belong to?","options":["Internet of Things","Renewable Energy","Electronics and Digital Circuits","Robotics"],"correct":2,"explanation":"Shaft encoders are a core topic in electronics and digital circuits, focusing on digital design and logic."},
-{"id":184,"category":"IoT","type":"mcq","question":"Which IoT topic addresses water scarcity in rural areas using sensors?","options":["Smart Home Access","Smart Grid Monitoring","Smart Irrigation System","Traffic Management"],"correct":2,"explanation":"Smart Irrigation System uses humidity sensors and IoT connectivity to optimize water usage in rural agricultural areas."},
-{"id":185,"category":"Renewable","type":"mcq","question":"What is the main problem with current solar panels according to the curriculum?","options":["They are too heavy","They are expensive and lose efficiency in hot climates","They are not available","They produce too much power"],"correct":1,"explanation":"The problem is high manufacturing costs and a significant drop in efficiency (up to 20%) at elevated temperatures."},
-{"id":186,"category":"Robotics","type":"mcq","question":"Which of the following is an objective for an autonomous drone project?","options":["Understanding drone physics","Designing a lightweight frame","Appreciating aerodynamics","Knowing about sensors"],"correct":1,"explanation":"SMART objectives should begin with action verbs like 'Design', not vague verbs like 'Understand' or 'Appreciate'."},
-{"id":187,"category":"Control","type":"mcq","question":"What does the topic 'Intelligent traffic management' focus on?","options":["Road construction","Using AI to improve traffic flow","Building more roads","Car manufacturing"],"correct":1,"explanation":"The topic focuses on using artificial intelligence and real-time data to optimize traffic signals and reduce congestion."},
-{"id":188,"category":"Literature","type":"essay","question":"What should a Literature Review on 'predictive maintenance' include according to the exam format?","answer":"It should include: previous studies on predictive maintenance, methods/technologies used (sensors, machine learning), at least one research gap identified, and proper IEEE in-text citations."},
-{"id":189,"category":"Intro","type":"essay","question":"Write a problem statement for a project on 'Seismic-resistant building system'.","answer":"Traditional buildings in earthquake-prone zones are vulnerable to structural failure, leading to loss of life and property damage. Current seismic design codes are not always sufficient for rare high-magnitude events. There is a critical need to develop an advanced seismic-resistant building system that can withstand 7.5 magnitude earthquakes while minimizing structural damage."},
-{"id":190,"category":"Methodology","type":"essay","question":"What are the key components to include in the Methodology chapter for a 'Hybrid Wind-Solar Power System' project?","answer":"Research design: simulation-based. Tools: MATLAB/Simulink with PV and wind turbine models. Data collection: hourly solar irradiance and wind speed data for one year. Analysis: compare efficiency, reliability, and cost of hybrid system vs. standalone systems. Validation: cross-check with real-world data."},
-{"id":191,"category":"Intro","type":"essay","question":"Explain the funnel approach and its importance in writing the introduction.","answer":"The funnel approach starts with general statements about the field, narrows down to the specific problem, and ends with the research gap. It helps the reader understand the context, see the progression of the topic, and appreciate why the research is needed."},
-{"id":192,"category":"Technical","type":"essay","question":"Why is the problem of transition errors important in Shaft Encoder design?","answer":"In traditional binary encoders, multiple bits can change simultaneously during high-speed rotation, leading to ambiguous readings (race conditions). This can cause catastrophic failures in CNC machinery and robotics. Gray code eliminates this by ensuring only one bit changes at a time."},
-{"id":193,"category":"Renewable","type":"essay","question":"What is the significance of developing a Hydrogen Fuel Cell system for vehicles?","answer":"Hydrogen fuel cells offer a clean alternative to fossil fuels, producing only water as a byproduct. They address the problem of greenhouse gas emissions from transportation and can contribute to energy independence. This topic allows for a strong preamble on climate change and sustainable development."},
-{"id":194,"category":"IoT","type":"essay","question":"What is the role of sensors in Smart Home Access Control Systems?","answer":"Sensors such as fingerprint scanners and cameras capture biometric data. The system processes this data using algorithms to authenticate users. The scope may include the type of algorithm used (e.g., facial recognition) and the maximum number of authorized users."},
-{"id":195,"category":"Exam","type":"report","question":"Write a technical report (Introduction and Methodology) about 'Development of a Portable Pulse Oximeter for Remote Health Monitoring'.","answer":"Introduction: Background on remote health monitoring and the need for portable devices. Problem: traditional oximeters are not portable or connected. Aim: design a portable pulse oximeter with wireless connectivity. Objectives: 1) Design sensor circuit. 2) Program microcontroller. 3) Enable Bluetooth transmission. 4) Test on 20 patients. Scope: SpO2 and heart rate measurement only. Significance: enables remote monitoring during pandemics. Methodology: Research design: experimental. Tools: MAX30100 sensor, Arduino, Bluetooth module. Data collection: compare with hospital-grade oximeter. Analysis: calculate error percentage. Validation: clinical testing.","rubric":"Introduction 40%, Methodology 40%, Structure 20%"},
-{"id":196,"category":"Intro","type":"essay","question":"What is the purpose of the 'Significance of the Study' section in an engineering report?","answer":"It explains the potential impact and value of the research, highlighting beneficiaries (industry, academia, society), originality, and socio-technical contributions. It justifies why the research is worth conducting."},
-{"id":197,"category":"Robotics","type":"essay","question":"Write a problem statement for a project on 'Image recognition in autonomous vehicles using machine learning'.","answer":"Current autonomous vehicles rely on expensive sensor arrays and complex algorithms, leading to high costs and computational demands. There is a need to develop a lightweight machine learning model that can achieve 95% accuracy in object detection while running on low-cost embedded hardware."},
-{"id":198,"category":"Control","type":"essay","question":"What are the limitations of a hybrid wind-solar system project?","answer":"Limitations may include: dependence on weather conditions, high initial cost, availability of space for installation, and intermittency of renewable sources. These are constraints beyond the researcher's control."},
-{"id":199,"category":"Literature","type":"essay","question":"How do you identify a research gap in access control systems?","answer":"By reviewing previous studies, you may find that existing systems lack multi-factor authentication, suffer from low accuracy under varying lighting, or are expensive. These limitations represent research gaps. You would highlight them using phrases like 'Despite advancements, limited research addresses...'"},
-{"id":200,"category":"IoT","type":"essay","question":"What is the importance of Smart Grid Monitoring?","answer":"It reduces energy losses, prevents blackouts, and enables real-time demand response. The research gap lies in traditional grids lacking the communication infrastructure for real-time monitoring and control."},
-{"id":201,"category":"Renewable","type":"essay","question":"Write a problem statement for a project on 'Hybrid Wind Turbine System for Domestic Use'.","answer":"Wind energy is underutilized in residential areas due to space constraints and low wind speeds in urban environments. Current systems are designed for large-scale farms. There is a need to develop a compact, low-wind-speed turbine system that can generate sufficient power for a single household."},
-{"id":202,"category":"Methodology","type":"essay","question":"What data collection methods are used in the methodology of a 'Smart Home Access Control' project?","answer":"Data collection includes: capturing biometric samples (fingerprints and facial images) from 10 users, each providing 5 samples. The system records matching scores and access times. Validation measures accuracy and response time."},
-{"id":203,"category":"Robotics","type":"essay","question":"What is the objective for an image recognition project in autonomous vehicles?","answer":"To train a Convolutional Neural Network (CNN) on a dataset of 10,000 images to achieve 95% accuracy in detecting pedestrians, vehicles, and traffic signs, with a processing speed of 30 fps on an embedded platform."},
-{"id":204,"category":"Intro","type":"mcq","question":"What is the recommended starting point when practicing technical writing topics?","options":["Memorizing past papers","Applying the Problem Statement Formula","Reading Wikipedia","Copying templates"],"correct":1,"explanation":"The Problem Statement Formula (Current situation + Gap + Impact) helps you understand the core problem, making you prepared for any topic rather than just memorizing models."},
-{"id":205,"category":"Writing","type":"essay","question":"Write a problem statement for a project on 'Developing a Hydrogen Fuel Cell as an Alternative to Fossil Fuels'.","answer":"Fossil fuels are a major source of greenhouse gas emissions and are depleting rapidly. Hydrogen fuel cells offer a clean alternative but are currently expensive and have limited efficiency. There is a need to develop a cost-effective hydrogen fuel cell system that achieves 60% efficiency for vehicle applications."},
-{"id":206,"category":"Intro","type":"essay","question":"What is the importance of the Scope and Limitations section in protecting the researcher?","answer":"Scope explicitly defines what the study will not cover, limiting the examiner's expectations to the stated focus. Limitations identify external constraints (data availability, sample size, resource limitations) that the researcher cannot control, preventing criticism for issues outside the study's control."},
-{"id":207,"category":"Methodology","type":"essay","question":"What are the evaluation criteria for an engineering methodology chapter with their respective weights?","answer":"Clarity (Weight: 0.3): Clear writing, breakdown of complex steps, and use of visual aids like flowcharts. Completeness (Weight: 0.3): Covers all essential design, build, and test steps, including calibration and safety. Feasibility (Weight: 0.2): Achievable within budget, time constraints, and resource availability. Organization (Weight: 0.1): Logical, sequential, step-by-step presentation. Safety (Weight: 0.1): Emphasizes safety precautions and use of protective gear."},
-{"id":208,"category":"IEEE","type":"essay","question":"What are the general guidelines for the IEEE reference list?","answer":"Order: References must be listed in the order they appear in the text. Authors: Initials must come before surnames. Formatting: Italicize book titles and conference proceedings; capitalize only the first word in titles. Links: Use DOIs or URLs when available, but do not use hyperlinks or underlining."},
-{"id":209,"category":"IEEE","type":"essay","question":"Provide the IEEE format for a Book.","answer":"[#] Initials Last name, Book Title, Edition. City: Publisher, Year."},
-{"id":210,"category":"IEEE","type":"essay","question":"Provide the IEEE format for a Website.","answer":"[#] Author or Organization, \"Title of document,\" Website Name. [Online]. Available: URL [Accessed: Month Day, Year]."},
-{"id":211,"category":"Intro","type":"essay","question":"Analyzing Funnel Logic: Explain the strategic role of funnel logic in the introduction to an engineering report. How does the shift from a global context (e.g., industrial automation) to a local problem (e.g., angular positioning errors) enhance the reader's understanding of the project's significance?","answer":"Funnel logic creates a smooth narrative flow that guides the reader from a broad, relatable context to a focused, specific problem. By starting with a global issue (e.g., the importance of industrial automation), the reader understands the 'big picture' and why the field matters. Gradually narrowing down to a local problem (e.g., angular positioning errors in shaft encoders) makes the research appear as a logical step in solving a real-world engineering challenge. This structure enhances the reader's comprehension by showing how the research fits into the larger ecosystem, justifying its relevance and demonstrating that the researcher has identified a specific, addressable gap within a broader technological landscape."},
-{"id":212,"category":"Intro","type":"essay","question":"Research Gap vs. Research Problem: Discuss the relationship between the research gap and the problem statement. How does the need to bridge knowledge gaps lead to the formulation of a single, specific technical problem?","answer":"The research gap is the missing knowledge or unanswered question identified in the literature review. It represents what previous studies have not addressed. The problem statement, on the other hand, is the precise technical articulation of this gap. The process of identifying a gap forces the researcher to ask: 'What exactly is missing? What technical flaw or inefficiency exists?' This questioning leads to the formulation of a single, specific technical problem that is measurable and actionable. The gap acts as the 'what is unknown,' while the problem statement becomes 'the specific question we need to answer to fill that gap,' thus providing a clear focus for the entire research."},
-{"id":213,"category":"Intro","type":"essay","question":"Measurement and Validation: Why should a research objective be measurable within the SMART framework? Provide an illustrative example of how an immeasurable objective can hinder the project's testing and validation phase.","answer":"Measurability is the cornerstone of the SMART framework because it allows the researcher to objectively determine whether the objective has been achieved. Without measurability, there is no clear criterion for success or failure. For example, an objective like 'To improve the performance of the system' is immeasurable – what constitutes 'improvement'? In the testing phase, the engineer cannot validate if the objective was met because there is no benchmark. In contrast, a measurable objective like 'To reduce the system's response time by 20%' provides a clear target. During testing, the engineer can measure the actual response time, compare it to the baseline, and definitively state whether the objective was achieved. An immeasurable objective hinders validation because it turns a scientific process into a subjective judgment."},
-{"id":214,"category":"CV","type":"essay","question":"Professional Comparison: Compare a professional letter of recommendation with an academic letter of recommendation. How does the target audience (project managers vs. selection committees) dictate whether the letter should emphasize practical skills or research capabilities?","answer":"A professional letter of recommendation is typically written by a former manager or supervisor and is intended for an industry job. Its audience is project managers and HR professionals who prioritize practical skills, teamwork, reliability, and contributions to company goals. Therefore, it emphasizes measurable achievements, technical proficiency, and the candidate's ability to deliver results in a fast-paced work environment. An academic letter of recommendation is written by a professor or advisor and is intended for graduate school admissions or research positions. Its audience is selection committees, who prioritize intellect, research ability, learning speed, and academic projects. This letter focuses on theoretical knowledge, analytical thinking, and the candidate's potential to contribute to academic research. The audience dictates the content: managers want to know if you can do the job, while academics want to know if you can advance knowledge."},
-{"id":215,"category":"CV","type":"essay","question":"Skills Transformation (STAR Method): What is the importance of transforming weak tasks (e.g., 'I worked on an HVAC system') into strengths using the formula (action + technical tool + measurable result)? How does this transformation help overcome applicant tracking systems (ATS)?","answer":"The STAR method (Situation, Task, Action, Result) transforms weak, passive statements into powerful, quantified achievements. A weak task like 'I worked on an HVAC system' is vague and fails to demonstrate the candidate's specific contribution or impact. By applying the formula – action verb (Redesigned) + technical tool (SolidWorks) + measurable result (reduced energy consumption by 15%) – the statement becomes compelling and evidence-based. This transformation is critical for overcoming Applicant Tracking Systems (ATS), which scan for keywords and quantifiable achievements. ATS algorithms are designed to filter resumes based on specific technical skills and measurable outcomes. A transformed bullet point is more likely to match the job description's keywords and pass the initial screening, ensuring that the candidate's application reaches a human recruiter."},
-{"id":216,"category":"Visualization","type":"essay","question":"Visual Representation Strategy: Based on the principles of technical communication, how would you choose between a line graph, a bar chart, and a table to represent specific experimental data? Discuss the importance of the Stand-alone Rule in writing figure labels.","answer":"The choice between a line graph, bar chart, and table depends on the nature of the data and the message. A line graph is used to show continuous change over time (trends), such as voltage variation over a period. A bar chart is used to compare discrete categories, such as efficiency of different solar panel materials. A table is used to display exact values of multiple variables for precise reference, such as sensor readings at different times. The Stand-alone Rule dictates that a figure caption must be clear enough for the reader to understand the figure without consulting the main text. This means including: the figure number, a descriptive title, the variables (with units), and any relevant conditions (e.g., temperature). This rule ensures that the figure is self-contained and accessible, improving the report's readability and professionalism."},
-{"id":217,"category":"IEEE","type":"essay","question":"Standardization: Discuss the role of IEEE standards in ensuring that engineering reports reach a global audience, and how the use of block diagrams reduces the reader's cognitive load.","answer":"IEEE standards (like the IEEE citation style) provide a common, universally recognized format for citing sources and structuring technical documents. This standardization ensures that an engineer in Egypt can read, understand, and verify the references of a report written in the United States without having to decipher a different formatting system. It facilitates global communication and collaboration. Block diagrams reduce cognitive load by presenting complex system architectures in a simplified, visual format. Instead of a lengthy text describing how each component interacts, a block diagram shows the high-level functional blocks and data flow at a glance. This visual representation allows the reader to quickly grasp the overall system design without getting bogged down in minute details, thus saving mental effort and improving comprehension."},
-{"id":218,"category":"Literature","type":"essay","question":"Research Ethics: What are the three fundamental questions that any literature review should answer? Why are academic databases (such as IEEE Xplore) technically superior to general search engines for engineering research?","answer":"A literature review should answer three fundamental questions: 1) What has been studied previously on this topic? 2) What methodologies were used? 3) What research gaps still exist? These questions guide the researcher in establishing background knowledge, understanding methodological trends, and identifying opportunities for new contributions. Academic databases like IEEE Xplore are technically superior to general search engines because they provide advanced filtering options (by date, document type, author, conference), precise keyword search algorithms, access to peer-reviewed and validated content, and citation tracking (allowing the researcher to see how many times a paper has been cited). General search engines often return a wide range of sources, many of which are not peer-reviewed, making it difficult for an engineer to filter and find reliable, relevant, and up-to-date research."},
-{"id":219,"category":"Writing","type":"essay","question":"Plagiarism vs. Paraphrasing: What is the fundamental difference between plagiarism and paraphrasing in terms of scientific integrity and the synthesis of technical meaning?","answer":"Plagiarism is the act of using another person's work, ideas, or words without giving proper attribution, effectively presenting them as your own. It violates scientific integrity by misrepresenting the source and stealing intellectual property. Paraphrasing, on the other hand, involves restating an idea in your own words while still crediting the original source. It demonstrates understanding by rephrasing and synthesizing the technical meaning into your own expression. In terms of integrity, plagiarism is dishonest and unethical, while paraphrasing (with citation) is a necessary skill for academic writing. Synthesis occurs when you combine ideas from multiple sources and present them as a coherent argument – a practice that is encouraged and demonstrates critical thinking. The distinction lies in the intention: plagiarizing is copying; paraphrasing is understanding and re-expressing while respecting the original work."}
-];
+    // ============================================================
+    //  SECURITY: Enhanced escapeHtml – prevents XSS completely
+    // ============================================================
+    function escapeHtml(str) {
+        if (typeof str !== 'string') return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
 
-// ============= باقي الكود (دوال العرض والتفاعل) =============
-let isDark = false;
-let currentExamQuestions = [];
-let userAnswers = {};
-let filterCategory = "all";
-let filterType = "all";
+    // ============================================================
+    //  SECURITY: Input Validation
+    // ============================================================
+    function validateInput(input, type) {
+        const validators = {
+            text: (v) => typeof v === 'string' && v.length <= 5000,
+            number: (v) => Number.isInteger(v) && v >= 0 && v <= 100,
+            category: (v) => ['all', 'Grammar', 'CV', 'Motivation', 'Recommendation',
+                'Intro', 'Structure', 'Style', 'Mistakes', 'Exam',
+                'Clauses', 'Comprehension', 'Writing', 'Technical', 'General',
+                'IEEE', 'Methodology', 'Implementation', 'Discussion', 'Visualization',
+                'IoT', 'Renewable', 'Robotics', 'Control', 'Literature'].includes(v),
+            type: (v) => ['all', 'mcq', 'essay', 'report', 'tf'].includes(v)
+        };
+        return validators[type] ? validators[type](input) : false;
+    }
 
-function shuffle(arr) { for (let i=arr.length-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
-function getFilteredPool() {
-    let pool = FULL_BANK.filter(q => (filterCategory==="all" || q.category===filterCategory) && (filterType==="all" || q.type===filterType));
-    if(pool.length===0) pool = [...FULL_BANK];
-    return shuffle([...pool]);
-}
-function refreshExam() {
-    currentExamQuestions = getFilteredPool().slice(0,15);
-    userAnswers = {};
-    renderQuestions();
-    updateProgress();
-    document.getElementById("resultModal").style.display = "none";
-}
-function updateProgress() {
-    let answered = 0;
-    currentExamQuestions.forEach(q => { if(userAnswers[q.id] && (userAnswers[q.id].answered || (userAnswers[q.id].userText?.trim()))) answered++; });
-    document.getElementById("progressFill").style.width = (answered/currentExamQuestions.length)*100+"%";
-}
-function escapeHtml(str) { return String(str).replace(/[&<>]/g,m=>m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
-function renderQuestions() {
-    const area = document.getElementById("questionsArea");
-    if(!currentExamQuestions.length){ area.innerHTML="<div style='text-align:center;padding:40px;'>No questions match filters.</div>"; return; }
-    let html="";
-    currentExamQuestions.forEach((q,idx)=>{
-        const saved = userAnswers[q.id];
-        const answered = saved && (saved.answered || saved.userText?.trim());
-        let typeLabel = q.type==="mcq"?"MCQ":(q.type==="essay"?"Essay":"Report");
-        html += `<div class="question-card" data-qid="${q.id}">
-                    <div class="q-header">
-                        <span class="q-badge">Question ${idx+1}</span>
-                        <span class="q-type">${typeLabel}</span>
-                        ${answered ? '<span style="color:#10b981;">✓ Answered</span>' : ''}
-                    </div>
-                    <div class="q-text">${escapeHtml(q.question)}</div>`;
-        if(q.type==="mcq"){
-            html += `<div class="options-list" data-qid="${q.id}">`;
-            q.options.forEach((opt,optIdx)=>{
-                const letter = String.fromCharCode(65+optIdx);
-                const isCorrectChoice = (saved && saved.selectedOption===optIdx && saved.correct===true);
-                const isWrongChoice = (saved && saved.selectedOption===optIdx && saved.correct===false);
-                let extraClass = "";
-                if(isCorrectChoice) extraClass = "correct-answer";
-                if(isWrongChoice) extraClass = "wrong-answer";
-                html += `<div class="option-item ${extraClass}" data-opt="${optIdx}" tabindex="0" role="button">
-                            <span class="option-prefix">${letter}</span>
-                            <span>${escapeHtml(opt)}</span>
-                        </div>`;
-            });
-            html += `</div><div class="feedback" id="fb-${q.id}"></div>`;
-        } else {
-            const savedText = saved?.userText || "";
-            html += `<div class="${q.type==='essay'?'essay-area':'report-area'}">
-                        <textarea id="ta-${q.id}" rows="4" placeholder="Write your answer here..." tabindex="0">${escapeHtml(savedText)}</textarea>
-                        <button class="small-btn show-model" data-qid="${q.id}" tabindex="0">📖 Show Model Answer</button>
-                        <div class="model-answer" id="model-${q.id}">${escapeHtml(q.answer || "Refer to academic resources.")}</div>
-                        ${q.rubric ? `<div class="rubric">📋 Self-assessment rubric: ${escapeHtml(q.rubric)}</div>` : ''}
-                        <button class="small-btn eval-essay" data-qid="${q.id}" tabindex="0">🔍 Self Evaluate (keywords)</button>
-                        <div class="feedback" id="kf-${q.id}" style="margin-top:6px;"></div>
-                    </div>`;
+    // ============================================================
+    //  SECURITY: Rate Limiter (frontend)
+    // ============================================================
+    class RateLimiter {
+        constructor(maxRequests = 5, windowMs = 60000) {
+            this.requests = [];
+            this.maxRequests = maxRequests;
+            this.windowMs = windowMs;
         }
-        html += `</div>`;
-    });
-    area.innerHTML = html;
-    attachEvents();
-    attachKeyboardSelection();
-}
-function attachEvents() {
-    document.querySelectorAll(".options-list").forEach(optList=>{
-        const qid = parseInt(optList.getAttribute("data-qid"));
-        const q = currentExamQuestions.find(qq=>qq.id===qid);
-        if(!q || q.type!=="mcq") return;
-        const opts = optList.querySelectorAll(".option-item");
-        opts.forEach(opt=>{
-            opt.removeEventListener("click", handleClick);
-            opt.addEventListener("click", handleClick);
-            function handleClick(){
-                if(userAnswers[qid]?.answered) return;
-                const selectedVal = parseInt(opt.getAttribute("data-opt"));
-                const isCorrect = (selectedVal === q.correct);
-                userAnswers[qid] = { answered: true, correct: isCorrect, selectedOption: selectedVal };
-                opts.forEach(oth=>{
-                    const val = parseInt(oth.getAttribute("data-opt"));
-                    if(val === q.correct) oth.classList.add("correct-answer");
-                    else if(val === selectedVal && !isCorrect) oth.classList.add("wrong-answer");
-                    oth.style.pointerEvents = "none";
-                    oth.classList.add("disabled-option");
-                });
-                const fb = document.getElementById(`fb-${qid}`);
-                if(fb){
-                    fb.innerHTML = `<div>📘 ${escapeHtml(q.explanation)} ✅ Correct answer: ${q.options[q.correct]}</div>`;
-                    fb.classList.add(isCorrect ? "correct" : "wrong");
-                }
-                const card = opt.closest(".question-card");
-                const span = card.querySelector(".q-header span:last-child");
-                if(span) span.innerHTML = isCorrect ? "✓ Correct" : "✓ Answered";
-                updateProgress();
-            }
-        });
-    });
-    document.querySelectorAll("textarea").forEach(ta=>{
-        const qid = parseInt(ta.id.split("-")[1]);
-        ta.addEventListener("input",(e)=>{
-            if(!userAnswers[qid]) userAnswers[qid] = {};
-            userAnswers[qid].userText = e.target.value;
-            updateProgress();
-        });
-    });
-    document.querySelectorAll(".show-model").forEach(btn=>{
-        btn.addEventListener("click",(e)=>{
-            const qid = parseInt(btn.getAttribute("data-qid"));
-            const modelDiv = document.getElementById(`model-${qid}`);
-            if(modelDiv) modelDiv.style.display = modelDiv.style.display==="none"?"block":"none";
-        });
-    });
-    document.querySelectorAll(".eval-essay").forEach(btn=>{
-        btn.addEventListener("click",(e)=>{
-            const qid = parseInt(btn.getAttribute("data-qid"));
-            const ta = document.getElementById(`ta-${qid}`);
-            const userText = ta?.value || "";
-            const q = currentExamQuestions.find(qq=>qq.id===qid);
-            if(!q || (q.type!=="essay" && q.type!=="report")) return;
-            let keywords = (q.answer || "").toLowerCase().split(/[ ,.]+/).filter(w=>w.length>3);
-            const unique = [...new Set(keywords)];
-            const found = unique.filter(kw=>userText.toLowerCase().includes(kw));
-            const percent = unique.length ? (found.length/unique.length)*100 : 0;
-            const fbDiv = document.getElementById(`kf-${qid}`);
-            if(fbDiv){
-                if(percent>60) fbDiv.innerHTML = `✅ Keyword match: ${Math.round(percent)}% – Good.`;
-                else if(percent>30) fbDiv.innerHTML = `⚠️ Match ${Math.round(percent)}%, add details.`;
-                else fbDiv.innerHTML = `❌ Low coverage. Important words: ${unique.slice(0,5).join(", ")}...`;
-                fbDiv.classList.add(percent>50?"correct":"wrong");
-            }
-        });
-    });
-}
-function attachKeyboardSelection(){
-    document.querySelectorAll(".option-item").forEach(opt=>{
-        opt.setAttribute("tabindex","0");
-        opt.addEventListener("keydown",(e)=>{
-            if(e.key==="Enter"||e.key===" "){ e.preventDefault(); opt.click(); }
-        });
-    });
-}
-function evaluateExam(){
-    let totalMCQ=0, correctMCQ=0;
-    const mistakes=[];
-    for(let q of currentExamQuestions){
-        if(q.type==="mcq"){
-            totalMCQ++;
-            const ans = userAnswers[q.id];
-            if(ans && ans.correct===true) correctMCQ++;
-            else {
-                let userChoice = ans ? q.options[ans.selectedOption] : "Not answered";
-                mistakes.push({question:q.question, userChoice, correctAnswer:q.options[q.correct], explanation:q.explanation});
-            }
+        canProceed() {
+            const now = Date.now();
+            this.requests = this.requests.filter(t => now - t < this.windowMs);
+            if (this.requests.length >= this.maxRequests) return false;
+            this.requests.push(now);
+            return true;
         }
     }
-    const score = totalMCQ ? Math.round((correctMCQ/totalMCQ)*100) : 0;
-    document.getElementById("scorePercent").innerHTML = `${score}%`;
-    let msg = (score>=85)?"🎉 Excellent!" : (score>=65)?"👍 Good, review mistakes." : "📚 Need more revision.";
-    document.getElementById("scoreMsg").innerHTML = `Score: ${correctMCQ} / ${totalMCQ} (${score}%)<br>${msg}`;
-    let mistakesHtml = "";
-    if(mistakes.length){
-        mistakesHtml = `<h4>❌ Mistakes (${mistakes.length})</h4>`;
-        mistakes.forEach(m=>{
-            mistakesHtml += `<div class="mistake-item"><strong>${escapeHtml(m.question)}</strong><br>Your answer: ${escapeHtml(m.userChoice)}<br>Correct: ${escapeHtml(m.correctAnswer)}<br><span style="font-size:0.8rem;">${escapeHtml(m.explanation)}</span></div>`;
+    const examRateLimiter = new RateLimiter(5, 60000);
+
+    // ============================================================
+    //  CONFIG
+    // ============================================================
+    const CONFIG = {
+        maxQuestionsPerExam: 15,
+        version: "3.0"
+    };
+
+    // ============================================================
+    //  STATE
+    // ============================================================
+    let isDark = false;
+    let allQuestions = [];
+    let currentExamQuestions = [];
+    let userAnswers = {};
+    let filterCategory = "all";
+    let filterType = "all";
+
+    // ============================================================
+    //  HELPERS
+    // ============================================================
+    function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function updateProgress() {
+        let answered = 0;
+        currentExamQuestions.forEach(q => {
+            const ans = userAnswers[q.id];
+            if (ans && (ans.answered || (ans.userText && ans.userText.trim()))) answered++;
         });
-    } else mistakesHtml = `<p style="color:#10b981;">✨ No mistakes! Perfect.</p>`;
-    document.getElementById("mistakesList").innerHTML = mistakesHtml;
-    document.getElementById("resultModal").style.display = "flex";
-}
-function buildFilters(){
-    const cats = [...new Set(FULL_BANK.map(q=>q.category))];
-    const catContainer = document.getElementById("categoryFilters");
-    catContainer.innerHTML = `<button class="filter-chip ${filterCategory==='all'?'active':''}" data-cat="all">All</button>`;
-    cats.forEach(c=>{ catContainer.innerHTML += `<button class="filter-chip ${filterCategory===c?'active':''}" data-cat="${c}">${c}</button>`; });
-    const types = ["all","mcq","essay","report"];
-    const typeContainer = document.getElementById("typeFilters");
-    typeContainer.innerHTML = "";
-    types.forEach(t=>{
-        let label = t==="all"?"All":(t==="mcq"?"MCQ":(t==="essay"?"Essay":"Report"));
-        typeContainer.innerHTML += `<button class="filter-chip ${filterType===t?'active':''}" data-type="${t}">${label}</button>`;
-    });
-    document.querySelectorAll("[data-cat]").forEach(btn=>{ btn.addEventListener("click",()=>{ filterCategory=btn.getAttribute("data-cat"); buildFilters(); refreshExam(); }); });
-    document.querySelectorAll("[data-type]").forEach(btn=>{ btn.addEventListener("click",()=>{ filterType=btn.getAttribute("data-type"); buildFilters(); refreshExam(); }); });
-}
-function resetFilters(){ filterCategory="all"; filterType="all"; buildFilters(); refreshExam(); }
-function setTheme(dark){ isDark=dark; if(dark) document.body.classList.add("dark"); else document.body.classList.remove("dark"); }
+        const fill = document.getElementById("progressFill");
+        if (fill) fill.style.width = (currentExamQuestions.length ? (answered / currentExamQuestions.length) * 100 : 0) + "%";
+    }
 
-document.getElementById("newExamBtn").onclick = () => refreshExam();
-document.getElementById("submitExamBtn").onclick = () => evaluateExam();
-document.getElementById("resetFiltersBtn").onclick = () => resetFilters();
-document.getElementById("closeResultBtn").onclick = () => document.getElementById("resultModal").style.display = "none";
-document.getElementById("newExamFromResultBtn").onclick = () => { document.getElementById("resultModal").style.display = "none"; refreshExam(); };
-document.getElementById("darkModeBtn").onclick = () => setTheme(true);
-document.getElementById("lightModeBtn").onclick = () => setTheme(false);
+    // ============================================================
+    //  FETCH QUESTIONS from questions.json
+    // ============================================================
+    async function loadQuestions() {
+        const statusEl = document.getElementById("loadStatus");
+        statusEl.textContent = "⏳ Loading question bank...";
+        try {
+            const res = await fetch('questions.json', { cache: "no-store" });
+            if (!res.ok) throw new Error(`HTTP ${res.status} while fetching questions.json`);
+            const data = await res.json();
+            allQuestions = data.questions || [];
+            statusEl.textContent = "";
+            buildFilters();
+            refreshExam();
+        } catch (err) {
+            console.error('Failed to load questions:', err);
+            statusEl.innerHTML = "⚠️ Could not load the question bank (questions.json). " +
+                "Make sure index.html and questions.json are in the same folder and the site is served over http(s) " +
+                "(opening index.html directly via file:// blocks fetch() in most browsers). " +
+                `<br><button class="btn" id="retryLoadBtn" style="margin-top:10px;">🔄 Retry</button>`;
+            const retryBtn = document.getElementById("retryLoadBtn");
+            if (retryBtn) retryBtn.addEventListener("click", loadQuestions);
+        }
+    }
 
-buildFilters();
-refreshExam();
-setTheme(false);
+    // ============================================================
+    //  RENDER
+    // ============================================================
+    function renderQuestions() {
+        const area = document.getElementById("questionsArea");
+        if (!currentExamQuestions.length) {
+            area.innerHTML = "<div style='text-align:center;padding:40px;'>No questions match filters.</div>";
+            return;
+        }
+        let html = "";
+        currentExamQuestions.forEach((q, idx) => {
+            const saved = userAnswers[q.id];
+            const answered = saved && (saved.answered || (saved.userText && saved.userText.trim()));
+            const isChoiceType = (q.type === "mcq" || q.type === "tf");
+            let typeLabel = q.type === "mcq" ? "MCQ" : (q.type === "tf" ? "True/False" : (q.type === "essay" ? "Essay" : "Report"));
+
+            html += `<div class="question-card" data-qid="${q.id}">
+                        <div class="q-header">
+                            <span class="q-badge">Question ${idx+1}</span>
+                            <span class="q-type">${typeLabel}</span>
+                            ${answered ? '<span style="color:#10b981;">✓ Answered</span>' : ''}
+                        </div>
+                        <div class="q-text">${escapeHtml(q.question)}</div>`;
+
+            if (isChoiceType) {
+                const opts = q.type === "tf" ? ["True", "False"] : q.options;
+                html += `<div class="options-list" data-qid="${q.id}">`;
+                opts.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(65 + optIdx);
+                    const isCorrectChoice = (saved && saved.selectedOption === optIdx && saved.correct === true);
+                    const isWrongChoice = (saved && saved.selectedOption === optIdx && saved.correct === false);
+                    let extraClass = "";
+                    if (isCorrectChoice) extraClass = "correct-answer";
+                    if (isWrongChoice) extraClass = "wrong-answer";
+                    html += `<div class="option-item ${extraClass}" data-opt="${optIdx}" tabindex="0" role="button">
+                                <span class="option-prefix">${letter}</span>
+                                <span>${escapeHtml(opt)}</span>
+                            </div>`;
+                });
+                html += `</div><div class="feedback" id="fb-${q.id}"></div>`;
+            } else {
+                const savedText = saved?.userText || "";
+                html += `<div class="${q.type === 'essay' ? 'essay-area' : 'report-area'}">
+                            <textarea id="ta-${q.id}" rows="4" placeholder="Write your answer here..." tabindex="0">${escapeHtml(savedText)}</textarea>
+                            <button class="small-btn show-model" data-qid="${q.id}" tabindex="0">📖 Show Model Answer</button>
+                            <div class="model-answer" id="model-${q.id}">${escapeHtml(q.answer || "Refer to academic resources.")}</div>
+                            ${q.rubric ? `<div class="rubric">📋 Self-assessment rubric: ${escapeHtml(q.rubric)}</div>` : ''}
+                            <button class="small-btn eval-essay" data-qid="${q.id}" tabindex="0">🔍 Self Evaluate (keywords)</button>
+                            <div class="feedback" id="kf-${q.id}" style="margin-top:6px;"></div>
+                        </div>`;
+            }
+            html += `</div>`;
+        });
+        area.innerHTML = html;
+        attachEvents();
+        attachKeyboardSelection();
+    }
+
+    // ============================================================
+    //  EVENT HANDLING
+    // ============================================================
+    function attachEvents() {
+        document.querySelectorAll(".options-list").forEach(optList => {
+            const qid = parseInt(optList.getAttribute("data-qid"));
+            const q = currentExamQuestions.find(qq => qq.id === qid);
+            if (!q || (q.type !== "mcq" && q.type !== "tf")) return;
+            const opts = optList.querySelectorAll(".option-item");
+            opts.forEach(opt => {
+                opt.removeEventListener("click", handleClick);
+                opt.addEventListener("click", handleClick);
+                function handleClick() {
+                    if (userAnswers[qid]?.answered) return;
+                    const selectedVal = parseInt(opt.getAttribute("data-opt"));
+                    const isCorrect = (selectedVal === q.correct);
+                    userAnswers[qid] = { answered: true, correct: isCorrect, selectedOption: selectedVal };
+                    opts.forEach(oth => {
+                        const val = parseInt(oth.getAttribute("data-opt"));
+                        if (val === q.correct) oth.classList.add("correct-answer");
+                        else if (val === selectedVal && !isCorrect) oth.classList.add("wrong-answer");
+                        oth.style.pointerEvents = "none";
+                        oth.classList.add("disabled-option");
+                    });
+                    const fb = document.getElementById(`fb-${qid}`);
+                    if (fb) {
+                        const correctAns = q.type === "tf" ? (q.correct === 0 ? "True" : "False") : q.options[q.correct];
+                        fb.innerHTML = `<div>📘 ${escapeHtml(q.explanation || '')} ✅ Correct answer: ${escapeHtml(correctAns)}</div>`;
+                        fb.classList.add(isCorrect ? "correct" : "wrong");
+                    }
+                    const card = opt.closest(".question-card");
+                    const span = card.querySelector(".q-header span:last-child");
+                    if (span) span.innerHTML = isCorrect ? "✓ Correct" : "✓ Answered";
+                    updateProgress();
+                }
+            });
+        });
+
+        document.querySelectorAll("textarea").forEach(ta => {
+            const qid = parseInt(ta.id.split("-")[1]);
+            ta.addEventListener("input", (e) => {
+                if (!userAnswers[qid]) userAnswers[qid] = {};
+                userAnswers[qid].userText = e.target.value;
+                updateProgress();
+            });
+        });
+
+        document.querySelectorAll(".show-model").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const qid = parseInt(btn.getAttribute("data-qid"));
+                const modelDiv = document.getElementById(`model-${qid}`);
+                if (modelDiv) modelDiv.style.display = modelDiv.style.display === "none" ? "block" : "none";
+            });
+        });
+
+        document.querySelectorAll(".eval-essay").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const qid = parseInt(btn.getAttribute("data-qid"));
+                const ta = document.getElementById(`ta-${qid}`);
+                const userText = ta?.value || "";
+                const q = currentExamQuestions.find(qq => qq.id === qid);
+                if (!q || (q.type !== "essay" && q.type !== "report")) return;
+                let keywords = (q.answer || "").toLowerCase().split(/[ ,.]+/).filter(w => w.length > 3);
+                const unique = [...new Set(keywords)];
+                const found = unique.filter(kw => userText.toLowerCase().includes(kw));
+                const percent = unique.length ? Math.round((found.length / unique.length) * 100) : 0;
+                const fbDiv = document.getElementById(`kf-${qid}`);
+                if (fbDiv) {
+                    if (percent > 60) fbDiv.innerHTML = `✅ Keyword match: ${percent}% – Good.`;
+                    else if (percent > 30) fbDiv.innerHTML = `⚠️ Match ${percent}%, add details.`;
+                    else fbDiv.innerHTML = `❌ Low coverage. Important words: ${unique.slice(0,5).join(", ")}...`;
+                    fbDiv.classList.add(percent > 50 ? "correct" : "wrong");
+                }
+            });
+        });
+    }
+
+    function attachKeyboardSelection() {
+        document.querySelectorAll(".option-item").forEach(opt => {
+            opt.setAttribute("tabindex", "0");
+            opt.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" || e.key === " ") { e.preventDefault(); opt.click(); }
+            });
+        });
+    }
+
+    // ============================================================
+    //  EVALUATE EXAM
+    // ============================================================
+    function evaluateExam() {
+        if (!examRateLimiter.canProceed()) {
+            alert("⏳ Too many exam submissions. Please wait a minute.");
+            return;
+        }
+        let totalMCQ = 0, correctMCQ = 0;
+        const mistakes = [];
+        for (let q of currentExamQuestions) {
+            if (q.type === "mcq" || q.type === "tf") {
+                totalMCQ++;
+                const ans = userAnswers[q.id];
+                if (ans && ans.correct === true) correctMCQ++;
+                else {
+                    let userChoice = ans ? (q.type === "tf" ? (ans.selectedOption === 0 ? "True" : "False") : q.options[ans.selectedOption]) : "Not answered";
+                    const correctAns = q.type === "tf" ? (q.correct === 0 ? "True" : "False") : q.options[q.correct];
+                    mistakes.push({ question: q.question, userChoice, correctAnswer: correctAns, explanation: q.explanation || '' });
+                }
+            }
+        }
+        const score = totalMCQ ? Math.round((correctMCQ / totalMCQ) * 100) : 0;
+        document.getElementById("scorePercent").innerHTML = `${score}%`;
+        let msg = (score >= 85) ? "🎉 Excellent!" : (score >= 65) ? "👍 Good, review mistakes." : "📚 Need more revision.";
+        document.getElementById("scoreMsg").innerHTML = `Score: ${correctMCQ} / ${totalMCQ} (${score}%)<br>${msg}`;
+        let mistakesHtml = "";
+        if (mistakes.length) {
+            mistakesHtml = `<h4>❌ Mistakes (${mistakes.length})</h4>`;
+            mistakes.forEach(m => {
+                mistakesHtml += `<div class="mistake-item"><strong>${escapeHtml(m.question)}</strong><br>Your answer: ${escapeHtml(m.userChoice)}<br>Correct: ${escapeHtml(m.correctAnswer)}<br><span style="font-size:0.8rem;">${escapeHtml(m.explanation)}</span></div>`;
+            });
+        } else {
+            mistakesHtml = `<p style="color:#10b981;">✨ No mistakes! Perfect.</p>`;
+        }
+        document.getElementById("mistakesList").innerHTML = mistakesHtml;
+        document.getElementById("resultModal").style.display = "flex";
+    }
+
+    // ============================================================
+    //  FILTERS
+    // ============================================================
+    function buildFilters() {
+        const cats = [...new Set(allQuestions.map(q => q.category))];
+        const catContainer = document.getElementById("categoryFilters");
+        catContainer.innerHTML = `<button class="filter-chip ${filterCategory === 'all' ? 'active' : ''}" data-cat="all">All</button>`;
+        cats.forEach(c => {
+            catContainer.innerHTML += `<button class="filter-chip ${filterCategory === c ? 'active' : ''}" data-cat="${c}">${c}</button>`;
+        });
+        const types = ["all", "mcq", "tf", "essay", "report"];
+        const typeContainer = document.getElementById("typeFilters");
+        typeContainer.innerHTML = "";
+        types.forEach(t => {
+            let label = t === "all" ? "All" : (t === "mcq" ? "MCQ" : (t === "tf" ? "True/False" : (t === "essay" ? "Essay" : "Report")));
+            typeContainer.innerHTML += `<button class="filter-chip ${filterType === t ? 'active' : ''}" data-type="${t}">${label}</button>`;
+        });
+        document.querySelectorAll("[data-cat]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                filterCategory = btn.getAttribute("data-cat");
+                buildFilters();
+                refreshExam();
+            });
+        });
+        document.querySelectorAll("[data-type]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                filterType = btn.getAttribute("data-type");
+                buildFilters();
+                refreshExam();
+            });
+        });
+    }
+
+    function resetFilters() {
+        filterCategory = "all";
+        filterType = "all";
+        buildFilters();
+        refreshExam();
+    }
+
+    // ============================================================
+    //  REFRESH EXAM
+    // ============================================================
+    function refreshExam() {
+        if (allQuestions.length === 0) return;
+        let pool = allQuestions.filter(q =>
+            (filterCategory === "all" || q.category === filterCategory) &&
+            (filterType === "all" || q.type === filterType)
+        );
+        if (pool.length === 0) pool = allQuestions;
+        currentExamQuestions = shuffle([...pool]).slice(0, CONFIG.maxQuestionsPerExam);
+        userAnswers = {};
+        renderQuestions();
+        updateProgress();
+        document.getElementById("resultModal").style.display = "none";
+    }
+
+    // ============================================================
+    //  THEME
+    // ============================================================
+    function setTheme(dark) {
+        isDark = dark;
+        if (dark) document.body.classList.add("dark");
+        else document.body.classList.remove("dark");
+    }
+
+    // ============================================================
+    //  INIT
+    // ============================================================
+    document.getElementById("newExamBtn").onclick = () => refreshExam();
+    document.getElementById("submitExamBtn").onclick = () => evaluateExam();
+    document.getElementById("resetFiltersBtn").onclick = () => resetFilters();
+    document.getElementById("closeResultBtn").onclick = () => document.getElementById("resultModal").style.display = "none";
+    document.getElementById("newExamFromResultBtn").onclick = () => { document.getElementById("resultModal").style.display = "none"; refreshExam(); };
+    document.getElementById("darkModeBtn").onclick = () => setTheme(true);
+    document.getElementById("lightModeBtn").onclick = () => setTheme(false);
+
+    setTheme(false);
+    loadQuestions();
 </script>
 </body>
 </html>
