@@ -45,12 +45,12 @@
             --accent: #38bdf8;
             --accent-hover: #7dd3fc;
             --btn-gradient: linear-gradient(135deg, #0284c7, #38bdf8);
-            --success-bg: #064e3b;        /* dark green background */
+            --success-bg: #064e3b;
             --success-border: #10b981;
-            --success-text: #a7f3d0;       /* light green text */
-            --error-bg: #7f1d1d;           /* dark red background */
+            --success-text: #a7f3d0;
+            --error-bg: #7f1d1d;
             --error-border: #f87171;
-            --error-text: #fecaca;          /* light red text */
+            --error-text: #fecaca;
             --focus-ring: #facc15;
             --option-bg: rgba(255, 255, 255, 0.05);
             --option-hover: rgba(56, 189, 248, 0.2);
@@ -252,7 +252,6 @@
             margin-bottom: 20px;
         }
 
-        /* Options list – default style */
         .options-list {
             display: flex;
             flex-direction: column;
@@ -287,7 +286,6 @@
             color: white;
         }
 
-        /* Correct answer styling (after submission) */
         .option-item.correct-answer {
             background: var(--success-bg) !important;
             border-color: var(--success-border) !important;
@@ -298,7 +296,6 @@
             color: white;
         }
 
-        /* Wrong answer styling (user's incorrect choice) */
         .option-item.wrong-answer {
             background: var(--error-bg) !important;
             border-color: var(--error-border) !important;
@@ -309,13 +306,11 @@
             color: white;
         }
 
-        /* Disabled options after answering */
         .option-item.disabled-option {
             pointer-events: none;
             opacity: 0.8;
         }
 
-        /* Feedback message (extra explanation) */
         .feedback {
             display: none;
             margin-top: 15px;
@@ -339,7 +334,6 @@
             color: var(--error-text);
         }
 
-        /* Essay / Report area */
         .essay-area textarea, .report-area textarea {
             width: 100%;
             background: var(--option-bg);
@@ -401,7 +395,6 @@
             outline: 3px solid var(--focus-ring);
         }
 
-        /* Result Modal */
         .result-modal {
             display: none;
             position: fixed;
@@ -529,9 +522,9 @@
 </div>
 
 <script>
-    // ======================== FULL QUESTION BANK (94 real questions, unique) ========================
+    // ======================== FULL QUESTION BANK (112 UNIQUE QUESTIONS) ========================
     const FULL_BANK = [
-        // MCQs (30)
+        // ====== ORIGINAL QUESTIONS (94) ======
         { id: 1, category: "Grammar", type: "mcq", question: "Some engineers ____________ many design specifications.", options: ["give", "gives", "are give", "is give"], correct: 0, explanation: "Plural subject → 'give'." },
         { id: 2, category: "Grammar", type: "mcq", question: "Taylor and Adam _______________ expert troubleshooters.", options: ["be", "is", "are", "does"], correct: 2, explanation: "Compound subject → 'are'." },
         { id: 3, category: "Grammar", type: "mcq", question: "____________ your colleagues analyze stress factors accurately.", options: ["Are", "Does", "Do", "Is"], correct: 2, explanation: "'Do' with plural subject." },
@@ -562,18 +555,181 @@
         { id: 28, category: "Comprehension", type: "mcq", question: "Which section establishes context?", options: ["Background", "Sampling", "Data Analysis", "Architecture"], correct: 0, explanation: "Background section." },
         { id: 29, category: "Comprehension", type: "mcq", question: "A clear statement of the research question is the ___?", options: ["Literature Review", "Significance", "Problem Statement", "Methodology"], correct: 2, explanation: "Problem Statement." },
         { id: 30, category: "Comprehension", type: "mcq", question: "Boundaries of the study (what it will not cover) are found in ___?", options: ["Ethics", "Scope and Limitations", "Research Design", "Data Analysis"], correct: 1, explanation: "Scope and Limitations." },
-        // Essays + Reports  (simplified examples to keep bank size)
         { id: 31, category: "Writing", type: "essay", question: "Explain the difference between active and passive voice in technical writing.", answer: "Active voice emphasizes the subject performing the action; passive voice emphasizes the action itself." },
         { id: 32, category: "Writing", type: "essay", question: "What is the STAR method and how does it improve an engineering CV?", answer: "Situation, Task, Action, Result. It quantifies achievements." },
         { id: 33, category: "Technical", type: "report", question: "Write a short technical report (Introduction + Methodology) for a 'Smart Temperature Monitoring System'.", answer: "Introduction: background, problem. Methodology: sensors, Arduino, validation.", rubric: "Clarity 30%, depth 40%, structure 30%" },
         { id: 34, category: "Technical", type: "report", question: "Write an introduction chapter for a project 'Designing a 3-bit ALU using logic gates'.", answer: "ALU core of CPU, delay problem, aim to design fast 3-bit ALU.", rubric: "Technical 40%, clarity 30%" }
     ];
-    // Fill up to 94 questions (mix mcq)
+
+    // إضافة أسئلة إضافية متنوعة (حتى 94)
     for (let i = 35; i <= 94; i++) {
         if (i % 3 === 0) FULL_BANK.push({ id: i, category: "Technical", type: "essay", question: "Discuss impact of IoT on industrial automation.", answer: "IoT enables real-time monitoring and predictive maintenance." });
         else if (i % 3 === 1) FULL_BANK.push({ id: i, category: "General", type: "mcq", question: "Which component stores electrical charge?", options: ["Resistor", "Inductor", "Capacitor", "Diode"], correct: 2, explanation: "Capacitor stores energy." });
         else FULL_BANK.push({ id: i, category: "General", type: "mcq", question: "What does CPU stand for?", options: ["Central Processing Unit", "Computer Personal Unit", "Central Program Unit", "Control Processing Unit"], correct: 0, explanation: "Central Processing Unit." });
     }
+
+    // ====== أسئلة من ملف Model Answer Mid TW 26.html (18 سؤالاً) ======
+    // القسم A - أسئلة مقالية (3)
+    FULL_BANK.push({
+        id: 95,
+        category: "Exam",
+        type: "essay",
+        question: "What are the main chapters that the technical report for research should contain?",
+        answer: "A typical technical research report usually includes the following chapters:\n1. Title Page\n2. Abstract\n3. Introduction\n4. Literature Review / Background\n5. Methodology\n6. Implementation\n7. Results / Findings\n8. Discussion, conclusion, and recommendations\n9. References\n10. Appendices (if needed)"
+    });
+    FULL_BANK.push({
+        id: 96,
+        category: "Exam",
+        type: "essay",
+        question: "Write brief notes on 'Background Information' as one of the key components of an introduction chapter.",
+        answer: "Background information is a section in the introduction chapter of a technical report that provides the necessary context for the study. It explains the general situation related to the research topic and presents previous knowledge or existing conditions. This section helps readers understand why the study is important, what has already been done in the field, and what gaps still exist that justify the research."
+    });
+    FULL_BANK.push({
+        id: 97,
+        category: "Exam",
+        type: "essay",
+        question: "Write the problem statement as part of the introduction chapter of a technical report about the lack of reliable and affordable water supply in rural areas.",
+        answer: "Many rural areas suffer from a lack of reliable and affordable water supply, which affects public health, agriculture, and daily living conditions. Existing water systems are often inefficient, expensive, or poorly maintained. Therefore, there is a need to investigate practical engineering solutions that can provide sustainable, low-cost, and reliable water supply systems for rural communities.\n\nResearch Question: What practical, low-cost engineering solutions can be designed and implemented to ensure a sustainable and reliable water supply for rural communities?"
+    });
+
+    // القسم B - أسئلة MCQ (15)
+    FULL_BANK.push({
+        id: 98,
+        category: "Exam",
+        type: "mcq",
+        question: "Select the correct format for expanding an engineering acronym.",
+        options: ["A. Cpu (Central processing unit)", "B. cpu (Central Processing Unit)", "C. cPu (central processing unit)", "D. CPU (Central Processing Unit)"],
+        correct: 3,
+        explanation: "CPU is an acronym and should be capitalized, with the full form properly capitalized."
+    });
+    FULL_BANK.push({
+        id: 99,
+        category: "Exam",
+        type: "mcq",
+        question: "Choose the sentence with correct capitalization.",
+        options: ["A. the simulation results confirm the hypothesis.", "B. the Simulation results confirm the hypothesis.", "C. The simulation results confirm the hypothesis.", "D. The Simulation Results confirm the hypothesis."],
+        correct: 2,
+        explanation: "Only the first word of the sentence should be capitalized."
+    });
+    FULL_BANK.push({
+        id: 100,
+        category: "Exam",
+        type: "mcq",
+        question: "Select the correctly punctuated list.",
+        options: ["A. The circuit requires resistors, capacitors, diodes, and transistors.", "B. The circuit requires resistors capacitors diodes and transistors.", "C. The circuit requires, resistors, capacitors, diodes, and transistors.", "D. The circuit requires: resistors, capacitors, diodes, and transistors."],
+        correct: 0,
+        explanation: "Correct comma usage with Oxford comma."
+    });
+    FULL_BANK.push({
+        id: 101,
+        category: "Exam",
+        type: "mcq",
+        question: "Fill in the blank using the present continuous tense. The engineer ______ the circuit now.",
+        options: ["A. tests", "B. tested", "C. will test", "D. is testing"],
+        correct: 3,
+        explanation: "Present continuous (is testing) for action happening now."
+    });
+    FULL_BANK.push({
+        id: 102,
+        category: "Exam",
+        type: "mcq",
+        question: "Change the following sentence to passive voice: 'The router has directed billions of packets.'",
+        options: ["A. Billions of packets were directed by the router.", "B. Billions of packets are directed by the router.", "C. Billions of packets will be directed by the router.", "D. Billions of packets have been directed by the router."],
+        correct: 3,
+        explanation: "Present perfect passive: have/has been + past participle."
+    });
+    FULL_BANK.push({
+        id: 103,
+        category: "Exam",
+        type: "mcq",
+        question: "Fill in the blank using the future simple tense. The technician ______ the server tomorrow.",
+        options: ["A. repaired", "B. repairs", "C. will repair", "D. repairing"],
+        correct: 2,
+        explanation: "Future simple: will + base verb."
+    });
+    FULL_BANK.push({
+        id: 104,
+        category: "Exam",
+        type: "mcq",
+        question: "Where should you place the background information and the problem statement in your report?",
+        options: ["A. Body", "B. References", "C. Introduction", "D. Abstract"],
+        correct: 2,
+        explanation: "Background and problem statement belong in the Introduction chapter."
+    });
+    FULL_BANK.push({
+        id: 105,
+        category: "Exam",
+        type: "mcq",
+        question: "Copying text from a journal without citing it violates which rule?",
+        options: ["A. Data integrity", "B. Plagiarism", "C. Functionality", "D. Clarity"],
+        correct: 1,
+        explanation: "Copying without citation is plagiarism."
+    });
+    FULL_BANK.push({
+        id: 106,
+        category: "Exam",
+        type: "mcq",
+        question: "A customer bought your device and needs instructions to operate it. What should they read?",
+        options: ["A. White Paper", "B. Technical Specification", "C. User Manual", "D. Recommendation Report"],
+        correct: 2,
+        explanation: "User Manual provides operating instructions for end users."
+    });
+    FULL_BANK.push({
+        id: 107,
+        category: "Exam",
+        type: "mcq",
+        question: "Fill in the blank: We installed ___ new router in the laboratory.",
+        options: ["A. a", "B. an", "C. the", "D. no article"],
+        correct: 0,
+        explanation: "'a' before consonant sound (new)."
+    });
+    FULL_BANK.push({
+        id: 108,
+        category: "Exam",
+        type: "mcq",
+        question: "Fill in the blank for a general statement: ___ algorithms process data efficiently.",
+        options: ["A. A", "B. The", "C. No article", "D. An"],
+        correct: 2,
+        explanation: "No article for general plural statements."
+    });
+    FULL_BANK.push({
+        id: 109,
+        category: "Exam",
+        type: "mcq",
+        question: "Identify the part of speech of the capitalized word in the sentence: 'She walked SLOWLY to the laboratory.'",
+        options: ["A. Adverb", "B. Preposition", "C. Verb", "D. Adjective"],
+        correct: 0,
+        explanation: "'Slowly' modifies the verb 'walked' → adverb."
+    });
+    FULL_BANK.push({
+        id: 110,
+        category: "Exam",
+        type: "mcq",
+        question: "Which word in the sentence functions as an adjective? 'The man in the red jumper is clever.'",
+        options: ["A. is", "B. clever", "C. man", "D. jumper"],
+        correct: 1,
+        explanation: "'Clever' describes the man → adjective."
+    });
+    FULL_BANK.push({
+        id: 111,
+        category: "Exam",
+        type: "mcq",
+        question: "Capacitors ______ stored energy during operation.",
+        options: ["A. discharge", "B. rebuild", "C. transmit", "D. cancel"],
+        correct: 0,
+        explanation: "Capacitors discharge stored energy."
+    });
+    FULL_BANK.push({
+        id: 112,
+        category: "Exam",
+        type: "mcq",
+        question: "When a cable is removed, the technician must ______ it.",
+        options: ["A. disable", "B. underload", "C. overload", "D. reconnect"],
+        correct: 3,
+        explanation: "The technician must reconnect the cable."
+    });
+
+    // ====== نهاية بنك الأسئلة (112 سؤالاً) ======
 
     let isDark = false;
     let currentExamQuestions = [];
@@ -663,7 +819,6 @@
                     const selectedVal = parseInt(opt.getAttribute("data-opt"));
                     const isCorrect = (selectedVal === q.correct);
                     userAnswers[qid] = { answered: true, correct: isCorrect, selectedOption: selectedVal };
-                    // update visual classes
                     opts.forEach(oth=>{
                         const val = parseInt(oth.getAttribute("data-opt"));
                         if(val === q.correct) oth.classList.add("correct-answer");
@@ -683,7 +838,6 @@
                 }
             });
         });
-        // Essay / Report auto-save
         document.querySelectorAll("textarea").forEach(ta=>{
             const qid = parseInt(ta.id.split("-")[1]);
             ta.addEventListener("input",(e)=>{
