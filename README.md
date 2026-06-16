@@ -16,18 +16,17 @@ An interactive engineering exam platform combining MCQ, True/False, short essay,
 - JSON (question database).
 - GitHub Pages for publishing.
 ## 📂 Project Structure
-```
 my-exam-app/
-├── index.html          # Main interface and application logic
-├── questions.json      # Question database
-└── README.md           # This file
-```
+├── index.html # Main interface and application logic
+├── questions.json # Question database
+├── LICENSE # License terms and copyright information
+└── README.md # This file
 ## 🚀 How to Run
 ### Locally (Offline)
-1. Download the `index.html` and `questions.json` files into the same folder.
+1. Download the `index.html` and `questions.json` files (and optionally `LICENSE` for legal reference) into the same folder.
 2. Open `index.html` using any modern browser (using a live server is recommended, since the question bank is loaded via `fetch()` and most browsers block this for files opened directly via `file://`).
 ### Via GitHub Pages
-1. Upload the two files to a public repository on GitHub.
+1. Upload the files to a public repository on GitHub.
 2. Enable GitHub Pages from Settings (Settings → Pages → Branch: main).
 3. Open the link below.
 ## 🧪 Test Link
@@ -37,4 +36,7 @@ https://ahmed-m-elsayad.github.io/my-exam-app/
 Engineering Student – Higher Institute of Engineering and Technology, Kafr El-Sheikh
 [LinkedIn Profile](https://www.linkedin.com/in/ahmed-mohammed-ahmed-saber-abdelhamid-b46249324)
 ## 📄 License
-All rights reserved © 2026 – Code may be used for educational purposes with attribution.
+This project is released under a **custom educational license**.  
+All rights are reserved by the author.  
+You are permitted to use, modify, and distribute the code **for educational and non-commercial purposes only**, provided that proper attribution is given to the original author.
+📜 For full terms, see the [LICENSE](./LICENSE) file.
