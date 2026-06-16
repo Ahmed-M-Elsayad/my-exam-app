@@ -34,6 +34,5 @@ https://ahmed-m-elsayad.github.io/my-exam-app/
 **Ahmed Elsayad**  
 Engineering Student – Higher Institute of Engineering and Technology, Kafr El-Sheikh  
 [LinkedIn Profile](https://www.linkedin.com/in/ahmed-mohammed-ahmed-saber-abdelhamid-b46249324)
-
 ## 📄 License
 All rights reserved © 2026 – Code may be used for educational purposes with attribution.
