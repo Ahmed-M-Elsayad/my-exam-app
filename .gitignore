@@ -11,6 +11,8 @@ publish/
 *.suo
 .DS_Store
 Thumbs.db
+desktop.ini
+ehthumbs.db
 
 # local database (contains the correct answers)
 *.db
