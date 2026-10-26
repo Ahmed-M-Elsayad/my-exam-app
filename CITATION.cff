@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software in academic work, please cite it as below."
+title: "Engineering Interactive Exam"
+abstract: >-
+  An interactive exam platform for engineering students to practice technical
+  writing, grammar, and engineering English. Features 219 curated questions
+  across 28 categories, with server-side grading, rate limiting, and
+  comprehensive unit tests. Built with ASP.NET Core 10, Entity Framework Core,
+  and vanilla JavaScript.
+authors:
+  - family-names: "Al-Sayad"
+    given-names: "Ahmed"
+    email: "a.elsuad08@gmail.com"
+    affiliation: "Higher Institute of Engineering and Technology, Kafr El-Sheikh"
+version: 1.0.0
+date-released: "2026-10-07"
+license: MIT
+repository-code: "https://github.com/Ahmed-M-Elsayad/my-exam-app"
+url: "https://github.com/Ahmed-M-Elsayad/my-exam-app"
+keywords:
+  - engineering-education
+  - exam-platform
+  - aspnet-core
+  - dotnet
+  - csharp
+  - clean-architecture
+  - security
+  - educational-technology
+  - web-application
+  - entity-framework-core
+type: software

@@ -1,0 +1,26 @@
+# build output
+bin/
+obj/
+publish/
+
+# IDE and OS files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+
+# local database (contains the correct answers)
+*.db
+*.db-shm
+*.db-wal
+
+# logs
+*.log
+logs/
+
+# environment variables
+.env
+appsettings.Development.json

@@ -1,0 +1,32 @@
+@ExamApp.Api_HostAddress = http://localhost:5152
+
+### 1. Get all questions
+GET {{ExamApp.Api_HostAddress}}/api/questions
+Accept: application/json
+
+### 2. Get questions with Filters (Category = Grammar, Type = mcq)
+GET {{ExamApp.Api_HostAddress}}/api/questions?category=Grammar&type=mcq
+Accept: application/json
+
+### 3. Get all available categories
+GET {{ExamApp.Api_HostAddress}}/api/questions/categories
+Accept: application/json
+
+### 4. Submit exam (Mix of MCQ and Essay)
+POST {{ExamApp.Api_HostAddress}}/api/exams/evaluate
+Content-Type: application/json
+
+{
+  "answers": [
+    { 
+      "questionId": 1, 
+      "selectedOptionIndex": 0, 
+      "freeText": null 
+    },
+    { 
+      "questionId": 30, 
+      "selectedOptionIndex": null, 
+      "freeText": "This is my essay answer for the literature review question." 
+    }
+  ]
+}

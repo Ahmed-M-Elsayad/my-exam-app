@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../ExamApp.Tests/ExamApp.Tests.csproj" Id="afbc4f4c-ba8f-495b-a1ce-5b20953f7451" />
+  <Project Path="ExamApp.Api.csproj" />
+</Solution>
