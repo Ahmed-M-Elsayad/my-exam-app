@@ -65,9 +65,12 @@ async function initExam() {
   } catch (err) {
     if (myId !== loadId) return;
     console.error(err);
-    $('loadStatus').textContent = err.status === 429
-      ? 'Too many requests. Wait a minute and try again.'
-      : 'Error loading questions. Please refresh.';
+
+    if (err.status === 429) {
+      $('loadStatus').textContent = 'Too many requests. Wait a minute and try again.';
+    } else {
+      $('loadStatus').textContent = 'Error loading questions. Please refresh.';
+    }
   }
 }
 
@@ -139,7 +142,8 @@ function buildChoices(q, saved, rev) {
       cls += ' selected';
     }
 
-    const letter = String.fromCharCode(65 + i);
+    // استخدمنا fromCodePoint بدل fromCharCode حسب توصية SonarCloud
+    const letter = String.fromCodePoint(65 + i);
 
     return `
             <div class="${cls}" role="radio" aria-checked="${isSelected}" data-opt="${opt.originalIndex}" tabindex="0">
@@ -208,7 +212,8 @@ function updateProgress() {
   const total = state.exam.length;
   const answered = state.exam.filter(q => {
     const a = state.answers[q.id];
-    return a && (a.selectedOptionIndex != null || (a.freeText && a.freeText.trim()));
+    // استخدمنا Optional Chaining (a.freeText?.trim) حسب توصية SonarCloud
+    return a && (a.selectedOptionIndex != null || a.freeText?.trim());
   }).length;
 
   const pct = total ? (answered / total) * 100 : 0;
@@ -241,9 +246,11 @@ async function handleSubmit() {
     showResult(result);
   } catch (err) {
     console.error(err);
-    alert(err.status === 429
-      ? 'Too many submissions. Wait a minute and try again.'
-      : 'Failed to submit exam. Please try again.');
+    if (err.status === 429) {
+      alert('Too many submissions. Wait a minute and try again.');
+    } else {
+      alert('Failed to submit exam. Please try again.');
+    }
   } finally {
     btn.disabled = state.submitted;
     btn.textContent = 'Submit exam';
@@ -253,7 +260,7 @@ async function handleSubmit() {
 // Result Modal
 function showResult(result) {
   $('scorePercent').textContent = `${result.percent}%`;
-  // NOSONAR - المحتوى مؤمن
+  // NOSONAR
   $('scoreMsg').innerHTML = `Score: ${Number(result.correctCount)} / ${Number(result.totalGraded)}<br>${escapeHtml(result.feedback)}`; // NOSONAR
 
   const mistakes = result.review.filter(r => !r.isCorrect && r.correctAnswer && r.correctAnswer !== 'N/A');
@@ -262,7 +269,7 @@ function showResult(result) {
   if (!mistakes.length) {
     list.innerHTML = '<p class="perfect">No mistakes. Full score.</p>';
   } else {
-    // NOSONAR - المحتوى مؤمن
+    // NOSONAR
     list.innerHTML = `<h4 class="mistakes-title">Mistakes (${mistakes.length})</h4>` +
       mistakes.map(m => `
                 <div class="mistake-item">
@@ -302,10 +309,10 @@ function renderFilters(categories) {
   $('typeFilters').innerHTML = typeHtml; // NOSONAR
 
   document.querySelectorAll('[data-cat]').forEach(btn => {
-    btn.onclick = () => { state.filters.category = btn.dataset.cat; initExam(); };
+    btn.onclick = () => { state.filters.category = btn.dataset.cat; void initExam(); };
   });
   document.querySelectorAll('[data-type]').forEach(btn => {
-    btn.onclick = () => { state.filters.type = btn.dataset.type; initExam(); };
+    btn.onclick = () => { state.filters.type = btn.dataset.type; void initExam(); };
   });
 }
 
@@ -325,16 +332,17 @@ function startingTheme() {
 
 // Init
 function bootstrap() {
-  $('newExamBtn').onclick = initExam;
-  $('submitExamBtn').onclick = handleSubmit;
+  // أضفنا void عشان نمنع تحذيرات الـ Promises حسب توصية SonarCloud
+  $('newExamBtn').onclick = () => { void initExam(); };
+  $('submitExamBtn').onclick = () => { void handleSubmit(); };
   $('resetFiltersBtn').onclick = () => {
     state.filters = { category: 'all', type: 'all' };
-    initExam();
+    void initExam();
   };
   $('closeResultBtn').onclick = () => $('resultModal').style.display = 'none';
   $('newExamFromResultBtn').onclick = () => {
     $('resultModal').style.display = 'none';
-    initExam();
+    void initExam();
   };
 
   $('lightModeBtn').onclick = () => setTheme(false);
